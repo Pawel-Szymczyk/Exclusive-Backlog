@@ -1,25 +1,60 @@
 import React, {Component} from 'react';
-import {StyleSheet, TouchableOpacity, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import {IconButton, FAB, List} from 'react-native-paper';
+import {getAllBacklogs} from '../api/backlogs';
+// import {FAB, IconButton, Stack} from '@react-native-material/core';
+// import {ListItem} from '@react-native-material/core';
 
 class App extends Component {
+  componentDidMount() {
+    this.getBacklogs();
+  }
+
   state = {
-    count: 0,
+    data: [],
   };
 
-  onPress = () => {
-    this.setState({
-      count: this.state.count + 1,
-    });
-  };
+  async getBacklogs() {
+    try {
+      const response = await getAllBacklogs();
+      console.log(response);
+      //   this.setState({data: response});
+    } catch (error) {}
+  }
 
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity style={styles.button} onPress={this.onPress}>
-          <Text>Click me</Text>
-        </TouchableOpacity>
-        <View>
-          <Text>You clicked {this.state.count} times</Text>
+        <View style={styles.navigationContainer}>
+          <IconButton
+            icon="qr-code-scanner"
+            size={20}
+            onPress={() => console.log('Pressed')}
+          />
+        </View>
+        <View style={styles.contentContainer}>
+          <List.Item
+            title="First Item"
+            description="Item description"
+            onPress={() => console.log('pressed')}
+            left={props => <List.Icon {...props} icon="folder" />}
+          />
+          <List.Item
+            title="First Item"
+            description="Item description"
+            left={props => <List.Icon {...props} icon="folder" />}
+          />
+          <List.Item
+            title="First Item"
+            description="Item description"
+            left={props => <List.Icon {...props} icon="folder" />}
+          />
+
+          <FAB
+            icon="add"
+            style={styles.fab}
+            onPress={() => console.log('Pressed')}
+          />
         </View>
       </View>
     );
@@ -29,14 +64,24 @@ class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    padding: 5,
   },
-  button: {
+  navigationContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-    marginBottom: 10,
+    backgroundColor: 'powderblue',
+  },
+  contentContainer: {
+    flex: 9,
+    backgroundColor: 'steelblue',
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
   },
 });
 
