@@ -21,8 +21,8 @@ export const CreateBacklog = async (
   quantity: number,
   category: string,
   buyOn: string,
-  createdOn: string,
-  modifiedOn: string,
+  // createdOn: string,
+  // modifiedOn: string,
 ): Promise<Response<BacklogResponse>> => {
   try {
     const response = await fetch(
@@ -38,8 +38,8 @@ export const CreateBacklog = async (
           quantity,
           category,
           buyOn,
-          createdOn,
-          modifiedOn,
+          // createdOn,
+          // modifiedOn,
         }),
       },
     );

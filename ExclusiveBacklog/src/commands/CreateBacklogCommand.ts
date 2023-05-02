@@ -8,8 +8,8 @@ export interface CreateBacklogCommandParams {
   quantity: number;
   category: string;
   buyOn: string;
-  createdOn: string;
-  modifiedOn: string;
+  // createdOn: string;
+  // modifiedOn: string;
 }
 
 export class CreateBacklogCommand
@@ -32,8 +32,8 @@ export class CreateBacklogCommand
         params.quantity,
         params.category,
         params.buyOn,
-        params.createdOn,
-        params.modifiedOn,
+        // params.createdOn,
+        // params.modifiedOn,
       );
 
       if (result.action === 'success') {

@@ -16,8 +16,8 @@ export class BacklogModel {
     quantity: number,
     category: string,
     buyOn: string,
-    createdOn: string,
-    modifiedOn: string,
+    // createdOn: string,
+    // modifiedOn: string,
   ): Promise<CreateBacklogResult> {
     const response = await CreateBacklog(
       name,
@@ -25,8 +25,8 @@ export class BacklogModel {
       quantity,
       category,
       buyOn,
-      createdOn,
-      modifiedOn,
+      // createdOn,
+      // modifiedOn,
     );
 
     if (response.status === 200) {

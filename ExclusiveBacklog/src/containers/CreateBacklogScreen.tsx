@@ -3,14 +3,19 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../App';
 import {observer} from 'mobx-react';
-import {useCommand} from '../commands/Command';
+// import {useCommand} from '../commands/Command';
 import {IconButton, TextInput, Button} from 'react-native-paper';
-import {makeAutoObservable, observable} from 'mobx';
-import {useState} from 'react';
-import {CreateBacklogCommand} from '../commands/CreateBacklogCommand';
-import Test from '../models/Test';
+import {action, makeAutoObservable, makeObservable, observable} from 'mobx';
+// import {useState} from 'react';
+import {
+  CreateBacklogCommand,
+  CreateBacklogCommandParams,
+} from '../commands/CreateBacklogCommand';
+// import Test from '../models/Test';
 // import {DatePickerInput} from 'react-native-paper-dates';
 import DatePicker from 'react-native-date-picker';
+import {act} from 'react-test-renderer';
+import {useCommand} from '../commands/Command';
 
 // class --------------------------------------------------------------
 
@@ -22,6 +27,8 @@ interface IBacklog {
   buyOn: string;
 }
 
+// const createBacklogCommand = useCommand(() => new CreateBacklogCommand());
+
 class Backlog {
   name: string = '';
   category: string = '';
@@ -32,16 +39,32 @@ class Backlog {
   open: boolean = false;
   date: Date = new Date();
 
-  toggleDate = () => {
-    this.open = !this.open;
-  };
-
   constructor() {
-    makeAutoObservable(this);
+    // makeAutoObservable(this);
+    makeObservable(this, {
+      // observables
+      name: observable,
+      category: observable,
+      price: observable,
+      quantity: observable,
+      buyOn: observable,
+      open: observable,
+      date: observable,
+
+      // actions
+      // toggleDate: action,
+      handleCreateBacklog: action,
+      handleNameChange: action,
+      handleCategoryChange: action,
+      handlePriceChange: action,
+      handleQuantityChange: action,
+      handleBuyOnChange: action,
+      handleSetOpen: action,
+    });
   }
 
-  createBacklog = () => {
-    const backlog: IBacklog = {
+  handleCreateBacklog = () => {
+    const backlog: CreateBacklogCommandParams = {
       name: this.name,
       price: this.price,
       quantity: this.quantity,
@@ -49,7 +72,39 @@ class Backlog {
       buyOn: this.buyOn.toString(),
     };
 
+    // createBacklogCommand.execute(backlog);
     // pass to api
+  };
+
+  handleNameChange = (text: string) => {
+    this.name = text;
+  };
+
+  handleCategoryChange = (text: string) => {
+    this.category = text;
+  };
+
+  handlePriceChange = (text: string) => {
+    if (text === '') {
+      text = '0';
+    }
+    this.price = parseFloat(text);
+  };
+
+  handleQuantityChange = (text: string) => {
+    if (text === '') {
+      text = '0';
+    }
+    this.quantity = parseFloat(text);
+  };
+
+  handleBuyOnChange = (value: Date) => {
+    console.log(value);
+    this.buyOn = value;
+  };
+
+  handleSetOpen = (value: boolean) => {
+    this.open = !this.open;
   };
 }
 
@@ -70,49 +125,23 @@ export class CreateBacklogScreen extends React.Component<CreateBacklogScreenProp
     super(props);
   }
 
-  // handleCreate(): void {
-  //   const command = new CreateBacklogCommand();
-  //   // var x = command.canExecute();
-
-  // }
-
-  handleNameChange = (text: string) => {
-    // add command here? or class variable
-    backlog.name = text;
-  };
-
-  handleCategoryChange = (text: string) => {
-    // add command here? or class variable
-    backlog.category = text;
-  };
-
-  handlePriceChange = (text: string) => {
-    // add command here? or class variable
-    backlog.price = parseFloat(text);
-  };
-
-  handleQuantityChange = (text: string) => {
-    // add command here? or class variable
-    backlog.quantity = parseFloat(text);
-  };
-
-  handleBuyOnChange = (date: Date) => {
-    backlog.buyOn = date;
-  };
-
-  handleCreateBacklog = () => {
-    backlog.createBacklog();
-  };
-
-  handleSetOpen = (value: boolean) => {
-    backlog.toggleDate();
-  };
-  handleSetDate = (value: Date) => {
-    console.log(value);
-  };
-
   render() {
-    const {name, category, price, quantity, buyOn, open, date} = backlog;
+    const {
+      name,
+      category,
+      price,
+      quantity,
+      buyOn,
+      open,
+      date,
+      handleCreateBacklog,
+      handleNameChange,
+      handleCategoryChange,
+      handlePriceChange,
+      handleQuantityChange,
+      handleBuyOnChange,
+      handleSetOpen,
+    } = backlog;
 
     // const [date, setDate] = useState(new Date());
     // const [open, setOpen] = useState(false);
@@ -129,60 +158,55 @@ export class CreateBacklogScreen extends React.Component<CreateBacklogScreenProp
           <TextInput
             label="Name"
             value={name}
-            onChangeText={this.handleNameChange}
+            onChangeText={handleNameChange}
             mode="outlined"
             style={styles.input}
           />
           <TextInput
             label="Category"
             value={category}
-            onChangeText={this.handleCategoryChange}
+            onChangeText={handleCategoryChange}
             mode="outlined"
             style={styles.input}
           />
           <TextInput
             label="Price"
             keyboardType="numeric"
-            value={price?.toString() ?? ''}
-            onChangeText={this.handlePriceChange}
+            value={price?.toString() ?? '0'}
+            onChangeText={handlePriceChange}
             mode="outlined"
             style={styles.input}
           />
           <TextInput
             label="Quantity"
             keyboardType="numeric"
-            value={quantity?.toString() ?? ''}
-            onChangeText={this.handleQuantityChange}
+            value={quantity?.toString() ?? '0'}
+            onChangeText={handleQuantityChange}
             mode="outlined"
             style={styles.input}
           />
-          {/* <DatePickerInput
-            locale="en"
-            label="Buy On"
-            value={buyOn}
-            onChange={date => this.handleBuyOnChange}
-            inputMode="start"
-          /> */}
 
-          <Button onPress={() => this.handleSetOpen(true)}>Open</Button>
+          <Button
+            mode="contained"
+            onPress={() => handleSetOpen(true)}
+            style={{marginBottom: 10}}>
+            Buy On
+          </Button>
           <DatePicker
             modal
             mode="date"
             open={open}
             date={date}
             onConfirm={date => {
-              this.handleSetOpen(false);
-              this.handleSetDate(date);
+              handleSetOpen(false);
+              handleBuyOnChange(date);
             }}
             onCancel={() => {
-              this.handleSetOpen(false);
+              handleSetOpen(false);
             }}
           />
 
-          <Button
-            icon="save"
-            mode="contained"
-            onPress={this.handleCreateBacklog}>
+          <Button icon="save" mode="contained" onPress={handleCreateBacklog}>
             Create Backlog
           </Button>
         </View>
