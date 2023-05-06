@@ -8,6 +8,16 @@ export const backlogSlice = createSlice({
   name: 'backlog',
   initialState,
   reducers: {
+    // getBacklogs: async ():Promise<void> => {
+    //   try {
+    //     const response = await fetch('localhost:3000/exclusive-backlogs');
+    //     const json = await response.json();
+
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // },
+
     createBacklog: (state, action: {payload: {name: string}; type: string}) => {
       state.backlogs = state.backlogs.concat([
         {name: action.payload.name, id: nanoid()},
