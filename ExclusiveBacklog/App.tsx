@@ -1,30 +1,22 @@
-import {StatusBar} from 'expo-status-bar';
-import {StyleSheet, Text, View, Button} from 'react-native';
+import React from 'react';
+import Home from './src/views/HomeView';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-export default function App() {
-  function buttonPressed() {
-    console.log('Button pressed');
+export type RootStackParamList = {
+  HomeView: Home;
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
+export default class App extends React.Component {
+  render(): React.ReactNode {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="HomeView" component={Home} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
   }
-
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-      <Button
-        onPress={buttonPressed}
-        title="Learn More"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-      />
-    </View>
-  );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
