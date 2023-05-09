@@ -1,15 +1,18 @@
 import {createAsyncThunk, createSlice, nanoid} from '@reduxjs/toolkit';
 import {BacklogType} from '../types/BacklogType';
 import BacklogStore from './backlogStore';
+import exclusiveBacklogService from '../services/exclusiveBacklogService';
 
 const initialState = BacklogStore;
+const backlogService = new exclusiveBacklogService();
 
 export const fetchBacklogs = createAsyncThunk(
   'backlog/fetchBacklogs',
   async () => {
-    return fetch('http://192.168.1.172:3000/exclusive-backlogs').then(res =>
-      res.json(),
-    );
+    // return fetch('http://192.168.1.172:3000/exclusive-backlogs').then(res =>
+    //   res.json(),
+    // );
+    return backlogService.getAllBacklogs();
   },
 );
 
@@ -63,28 +66,3 @@ export const BacklogAction = {
 };
 
 export default backlogSlice.reducer;
-
-// export const fetchBacklogs = async () => {
-//   try {
-//     const response = await fetch(
-//       'http://192.168.1.172:3000/exclusive-backlogs',
-//     );
-//     return response.json();
-//     // const data: BacklogType[] = await response.json();
-
-//     // return data;
-//     // data.forEach(element => {
-//     //   createBacklog(element.name);
-//     // });
-
-//     // const result: Response<BacklogResponse> = {
-//     //   status: response.status,
-//     // };
-
-//     // if (response.ok) {
-//     //   result.body = (await response.json()) as BacklogResponse;
-//     // }
-
-//     // return result;
-//   } catch (err) {}
-// };
