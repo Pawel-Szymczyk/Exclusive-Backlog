@@ -7,9 +7,12 @@ import {
   Button,
   TouchableOpacity,
   FlatList,
+  ScrollView,
 } from 'react-native';
 import useHomeBacklogViewController from '../viewcontrollers/useHomeBacklogViewController';
 import {BacklogType} from '../types/BacklogType';
+import {IconButton} from 'react-native-paper';
+import TableComponent from '../components/TableComponent';
 
 // export default class Home extends React.Component {
 //   buttonPressed(): void {
@@ -43,21 +46,32 @@ const Home = () => {
       </TouchableOpacity>
     );
   };
-  // render() {
+
+  const buttonPressed = (): void => {
+    console.log('Button pressed');
+  };
+
   return (
     <View style={styles.container}>
-      <View>
-        {/* <Text style={styles.heading}>Todo</Text>
-        <TouchableOpacity style={styles.btn} onPress={onPressCreate}>
-          <Text style={styles.btnText}>Create</Text>
-        </TouchableOpacity> */}
+      <View style={styles.navigationContainer}>
+        {/* <IconButton
+          icon="qr-code-scanner"
+          size={20}
+          onPress={() => console.log('Pressed')}
+        /> */}
       </View>
-      <View>
-        <FlatList
+      <View style={styles.contentContainer}>
+        {/* <FlatList
           keyExtractor={item => item.id}
           data={backlogs}
           renderItem={renderBacklogList}
+        /> */}
+        {/* <ScrollView> */}
+        <TableComponent
+          onPressEventHandler={() => buttonPressed}
+          items={backlogs}
         />
+        {/* </ScrollView> */}
       </View>
     </View>
   );
@@ -67,9 +81,28 @@ const Home = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    padding: 5,
+  },
+  navigationContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: 'powderblue',
+  },
+  contentContainer: {
+    flex: 9,
+    backgroundColor: 'steelblue',
+    padding: 10,
+  },
+  input: {
+    marginBottom: 10,
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
   },
 });
 
