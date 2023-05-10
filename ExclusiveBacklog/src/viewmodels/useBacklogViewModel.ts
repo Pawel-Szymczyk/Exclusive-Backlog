@@ -37,12 +37,13 @@ const useBacklogViewModel = () => {
     backlogs,
     fetchBacklogs: () => dispatch(fetchBacklogs()),
 
-    createBacklog: (name: string) => dispatch(createBacklog({name})),
+    createBacklog: (name: string, category: string) =>
+      dispatch(createBacklog({name, category})),
     creatingBacklog,
     createBacklogSuccess,
     createBacklogError,
 
-    updateBacklog: (payload: {id: string; name: string}) =>
+    updateBacklog: (payload: {_id: string; name: string; category: string}) =>
       dispatch(updateBacklog(payload)),
     updatingBacklog,
     updateBacklogSuccess,

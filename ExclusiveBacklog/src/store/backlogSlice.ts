@@ -20,14 +20,21 @@ export const backlogSlice = createSlice({
   name: 'backlog',
   initialState,
   reducers: {
-    createBacklog: (state, action: {payload: {name: string}; type: string}) => {
+    createBacklog: (
+      state,
+      action: {payload: {name: string; category: string}; type: string},
+    ) => {
       state.backlogs = state.backlogs.concat([
-        {name: action.payload.name, id: nanoid()},
+        {
+          name: action.payload.name,
+          _id: nanoid(),
+          category: action.payload.category,
+        },
       ]);
     },
     updateBacklog: (state, action: {payload: BacklogType; type: string}) => {
       state.backlogs = state.backlogs.map((backlogItem: BacklogType) => {
-        if (backlogItem.id === action.payload.id) {
+        if (backlogItem._id === action.payload._id) {
           backlogItem.name = action.payload.name;
           return backlogItem;
         }
@@ -37,7 +44,7 @@ export const backlogSlice = createSlice({
     },
     deleteBacklog: (state, action: {payload: {id: string}; type: string}) => {
       state.backlogs = state.backlogs.filter(
-        (backlogItem: BacklogType) => backlogItem.id !== action.payload.id,
+        (backlogItem: BacklogType) => backlogItem._id !== action.payload.id,
       );
     },
   },

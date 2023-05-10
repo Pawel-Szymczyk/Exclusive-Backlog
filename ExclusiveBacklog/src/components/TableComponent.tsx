@@ -32,8 +32,8 @@ const TableComponent = (props: TableComponentProps) => {
   const [numberOfItemsPerPage, onItemsPerPageChange] = React.useState(
     numberOfItemsPerPageList[0],
   );
-  const from = page * numberOfItemsPerPage;
-  const to = Math.min((page + 1) * numberOfItemsPerPage, items.length);
+  //   const from = page * numberOfItemsPerPage;
+  //   const to = Math.min((page + 1) * numberOfItemsPerPage, items.length);
 
   React.useEffect(() => {
     setPage(0);
@@ -44,15 +44,16 @@ const TableComponent = (props: TableComponentProps) => {
       <DataTable>
         <DataTable.Header>
           <DataTable.Title>Name</DataTable.Title>
-          {/* <DataTable.Title numeric>Calories</DataTable.Title> */}
+          <DataTable.Title>Category</DataTable.Title>
           {/* <DataTable.Title numeric>Fat</DataTable.Title> */}
         </DataTable.Header>
 
         {items.map(x => (
-          <DataTable.Row key={x.id}>
+          <DataTable.Row key={x._id}>
             <DataTable.Cell>
               <Button onPress={onPressEventHandler}>{x.name}</Button>{' '}
             </DataTable.Cell>
+            <DataTable.Cell>{x.category}</DataTable.Cell>
           </DataTable.Row>
         ))}
 

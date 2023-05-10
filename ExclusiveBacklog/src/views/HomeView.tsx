@@ -11,8 +11,9 @@ import {
 } from 'react-native';
 import useHomeBacklogViewController from '../viewcontrollers/useHomeBacklogViewController';
 import {BacklogType} from '../types/BacklogType';
-import {IconButton} from 'react-native-paper';
+import {FAB, IconButton} from 'react-native-paper';
 import TableComponent from '../components/TableComponent';
+import ListComponent from '../components/ListComponent';
 
 // export default class Home extends React.Component {
 //   buttonPressed(): void {
@@ -47,10 +48,6 @@ const Home = () => {
     );
   };
 
-  const buttonPressed = (): void => {
-    console.log('Button pressed');
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.navigationContainer}>
@@ -61,17 +58,16 @@ const Home = () => {
         /> */}
       </View>
       <View style={styles.contentContainer}>
-        {/* <FlatList
-          keyExtractor={item => item.id}
-          data={backlogs}
-          renderItem={renderBacklogList}
-        /> */}
-        {/* <ScrollView> */}
-        <TableComponent
-          onPressEventHandler={() => buttonPressed}
-          items={backlogs}
+        <ListComponent
+          onListItemPressEventHandler={() => console.log('Item Pressed')}
+          listItems={backlogs}
+          title="Backlogs"
         />
-        {/* </ScrollView> */}
+        <FAB
+          icon="plus"
+          style={styles.fab}
+          onPress={() => console.log('Pressed')}
+        />
       </View>
     </View>
   );

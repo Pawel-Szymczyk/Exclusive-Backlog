@@ -4,14 +4,16 @@ import {BacklogStateType} from '../types/BacklogStateType';
 const BacklogStore: BacklogStateType = {
   fetchingBacklogs: false,
   backlogs: [
-    {
-      id: nanoid(),
-      name: 'test 1',
-    },
-    {
-      id: nanoid(),
-      name: 'test 2',
-    },
+    // {
+    //   _id: nanoid(),
+    //   name: 'test 1',
+    //   category: 'test 1',
+    // },
+    // {
+    //   _id: nanoid(),
+    //   name: 'test 2',
+    //   category: 'test 2',
+    // },
   ],
   creatingBacklog: false,
   createBacklogSuccess: false,

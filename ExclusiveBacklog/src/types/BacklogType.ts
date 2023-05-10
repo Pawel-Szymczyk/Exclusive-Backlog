@@ -1,12 +1,12 @@
 export type BacklogType = {
-  id: string;
+  // id: string;
   name: string;
   //   price: number;
   //   quantity: number;
-  //   category: string;
+  category: string;
   //   buyOn: string;
   //   createdOn: string;
   //   modifiedOn: string;
-  //   _id: string;
+  _id: string;
   //   __v: number;
 };
