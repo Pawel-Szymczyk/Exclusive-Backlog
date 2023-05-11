@@ -6,12 +6,14 @@ import store from './src/store';
 import {Provider as PaperProvider} from 'react-native-paper';
 import HomeBacklogsView from './src/views/HomeView';
 import NewBacklogView from './src/views/NewBacklogView';
+import BacklogView from './src/views/BacklogView';
+import {BacklogType} from './src/types/BacklogType';
 
 export type RootStackParamList = {
   HomeBacklogs: undefined;
   NewBacklog: undefined;
   Backlog: {
-    backlogId: string;
+    backlog: BacklogType;
   };
 };
 
@@ -26,6 +28,7 @@ export default class App extends React.Component {
             <Stack.Navigator>
               <Stack.Screen name="HomeBacklogs" component={HomeBacklogsView} />
               <Stack.Screen name="NewBacklog" component={NewBacklogView} />
+              <Stack.Screen name="Backlog" component={BacklogView} />
             </Stack.Navigator>
           </NavigationContainer>
         </PaperProvider>

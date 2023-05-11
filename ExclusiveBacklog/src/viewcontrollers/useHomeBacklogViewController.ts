@@ -20,7 +20,7 @@ const useHomeBacklogViewController = () => {
   }, []);
 
   const onPressBacklogItem = (backlog: BacklogType) => {
-    // navigation.navigate(screenMap.UpdateTodo, {todoItem});
+    navigation.navigate('Backlog', {backlog});
   };
 
   const onPressCreate = (): void => {

@@ -16,26 +16,6 @@ import ListComponent from '../components/ListComponent';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../App';
 
-// export default class Home extends React.Component {
-//   buttonPressed(): void {
-//     console.log('Button pressed');
-//   }
-//   render(): React.ReactNode {
-//     return (
-//       <View style={styles.container}>
-//         <Text>THIS IS HOME SCREEN</Text>
-//         <StatusBar style="auto" />
-//         <Button
-//           onPress={this.buttonPressed}
-//           title="Learn More"
-//           color="#841584"
-//           accessibilityLabel="Learn more about this purple button"
-//         />
-//       </View>
-//     );
-//   }
-// }
-
 type HomeBacklogsProps = NativeStackScreenProps<
   RootStackParamList,
   'HomeBacklogs'
@@ -44,15 +24,6 @@ type HomeBacklogsProps = NativeStackScreenProps<
 const HomeBacklogsView = ({route, navigation}: HomeBacklogsProps) => {
   const {backlogs, onPressBacklogItem, onPressCreate} =
     useHomeBacklogViewController();
-
-  // export default class Home extends React.Component {
-  const renderBacklogList = ({item}: {item: BacklogType}) => {
-    return (
-      <TouchableOpacity onPress={() => onPressBacklogItem(item)}>
-        <Text>{item.name}</Text>
-      </TouchableOpacity>
-    );
-  };
 
   return (
     <View style={styles.container}>
@@ -65,7 +36,7 @@ const HomeBacklogsView = ({route, navigation}: HomeBacklogsProps) => {
       </View>
       <View style={styles.contentContainer}>
         <ListComponent
-          onListItemPressEventHandler={() => console.log('Item Pressed')}
+          onListItemPressEventHandler={onPressBacklogItem}
           listItems={backlogs}
           title="Backlogs"
         />
@@ -73,7 +44,6 @@ const HomeBacklogsView = ({route, navigation}: HomeBacklogsProps) => {
       </View>
     </View>
   );
-  // }
 };
 
 const styles = StyleSheet.create({

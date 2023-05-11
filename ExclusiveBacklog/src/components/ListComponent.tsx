@@ -33,7 +33,7 @@ const createAccordionList = (items: BacklogType[]): AccordionItem[] => {
 
 interface ListComponentProps {
   title: string;
-  onListItemPressEventHandler: () => void;
+  onListItemPressEventHandler: (backlog: BacklogType) => void;
   listItems: BacklogType[];
 }
 
@@ -41,9 +41,9 @@ const ListComponent = (props: ListComponentProps) => {
   const {onListItemPressEventHandler, listItems, title} = props;
   const accordionItems = createAccordionList(listItems);
 
-  const [expanded, setExpanded] = React.useState(true);
+  // const [expanded, setExpanded] = React.useState(true);
 
-  const handlePress = () => setExpanded(!expanded);
+  // const handlePress = () => setExpanded(!expanded);
 
   return (
     <ScrollView>
@@ -54,7 +54,7 @@ const ListComponent = (props: ListComponentProps) => {
               <List.Item
                 key={item._id}
                 title={item.name}
-                onPress={onListItemPressEventHandler}
+                onPress={() => onListItemPressEventHandler(item)}
               />
             ))}
           </List.Accordion>
