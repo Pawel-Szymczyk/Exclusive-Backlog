@@ -12,8 +12,9 @@ import {
 import useHomeBacklogViewController from '../viewcontrollers/useHomeBacklogViewController';
 import {BacklogType} from '../types/BacklogType';
 import {FAB, IconButton} from 'react-native-paper';
-import TableComponent from '../components/TableComponent';
 import ListComponent from '../components/ListComponent';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../App';
 
 // export default class Home extends React.Component {
 //   buttonPressed(): void {
@@ -35,7 +36,12 @@ import ListComponent from '../components/ListComponent';
 //   }
 // }
 
-const Home = () => {
+type HomeBacklogsProps = NativeStackScreenProps<
+  RootStackParamList,
+  'HomeBacklogs'
+>;
+
+const HomeBacklogsView = ({route, navigation}: HomeBacklogsProps) => {
   const {backlogs, onPressBacklogItem, onPressCreate} =
     useHomeBacklogViewController();
 
@@ -63,11 +69,7 @@ const Home = () => {
           listItems={backlogs}
           title="Backlogs"
         />
-        <FAB
-          icon="plus"
-          style={styles.fab}
-          onPress={() => console.log('Pressed')}
-        />
+        <FAB icon="plus" style={styles.fab} onPress={onPressCreate} />
       </View>
     </View>
   );
@@ -102,4 +104,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default HomeBacklogsView;

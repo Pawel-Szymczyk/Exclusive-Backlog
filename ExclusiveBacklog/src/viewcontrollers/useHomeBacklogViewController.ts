@@ -1,14 +1,21 @@
 import {useEffect} from 'react';
 import {BacklogType} from '../types/BacklogType';
 import useBacklogViewModel from '../viewmodels/useBacklogViewModel';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../App';
 
 const useHomeBacklogViewController = () => {
+  const navigation: NativeStackNavigationProp<
+    RootStackParamList,
+    'HomeBacklogs',
+    undefined
+  > = useNavigation();
+
   const {backlogs, fetchingBacklogs, createBacklog, fetchBacklogs} =
     useBacklogViewModel();
 
   useEffect(() => {
-    // fetchBacklogs();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     fetchBacklogs();
   }, []);
 
@@ -16,8 +23,8 @@ const useHomeBacklogViewController = () => {
     // navigation.navigate(screenMap.UpdateTodo, {todoItem});
   };
 
-  const onPressCreate = () => {
-    // navigation.navigate(screenMap.NewTodo);
+  const onPressCreate = (): void => {
+    navigation.navigate('NewBacklog');
   };
 
   return {
