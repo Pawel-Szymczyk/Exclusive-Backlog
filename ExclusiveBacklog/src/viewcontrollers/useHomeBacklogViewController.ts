@@ -12,8 +12,7 @@ const useHomeBacklogViewController = () => {
     undefined
   > = useNavigation();
 
-  const {backlogs, fetchingBacklogs, createBacklog, fetchBacklogs} =
-    useBacklogViewModel();
+  const {backlogs, fetchingBacklogs, fetchBacklogs} = useBacklogViewModel();
 
   useEffect(() => {
     fetchBacklogs();

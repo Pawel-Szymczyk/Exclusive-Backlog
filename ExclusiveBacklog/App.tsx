@@ -26,8 +26,16 @@ export default class App extends React.Component {
         <PaperProvider>
           <NavigationContainer>
             <Stack.Navigator>
-              <Stack.Screen name="HomeBacklogs" component={HomeBacklogsView} />
-              <Stack.Screen name="NewBacklog" component={NewBacklogView} />
+              <Stack.Screen
+                name="HomeBacklogs"
+                component={HomeBacklogsView}
+                options={{title: 'Home'}}
+              />
+              <Stack.Screen
+                name="NewBacklog"
+                component={NewBacklogView}
+                options={{title: 'New Backlog'}}
+              />
               <Stack.Screen name="Backlog" component={BacklogView} />
             </Stack.Navigator>
           </NavigationContainer>

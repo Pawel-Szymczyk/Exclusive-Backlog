@@ -1,16 +1,7 @@
 import {StatusBar} from 'expo-status-bar';
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  TouchableOpacity,
-  FlatList,
-  ScrollView,
-} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import useHomeBacklogViewController from '../viewcontrollers/useHomeBacklogViewController';
-import {BacklogType} from '../types/BacklogType';
 import {FAB, IconButton} from 'react-native-paper';
 import ListComponent from '../components/ListComponent';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';

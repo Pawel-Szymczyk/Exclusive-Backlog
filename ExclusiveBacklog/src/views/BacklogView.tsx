@@ -14,6 +14,12 @@ import {RootStackParamList} from '../../App';
 type BacklogProps = NativeStackScreenProps<RootStackParamList, 'Backlog'>;
 
 const BacklogView = ({route, navigation}: BacklogProps) => {
+  React.useEffect(() => {
+    navigation.setOptions({
+      title: route.params.backlog.name,
+    });
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
       <Text>{route.params.backlog.name}</Text>
