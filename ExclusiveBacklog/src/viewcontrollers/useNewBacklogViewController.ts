@@ -1,6 +1,7 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {BacklogType} from '../types/BacklogType';
 import useBacklogViewModel from '../viewmodels/useBacklogViewModel';
+import useCategoryViewModel from '../viewmodels/useCategoryViewModel';
 
 type BacklogFormState = {
   name: string;
@@ -24,6 +25,12 @@ const useNewBacklogViewController = () => {
     initialBacklogFormState,
   );
   const {createBacklog, creatingBacklog} = useBacklogViewModel();
+  const {categories, fetchCategories, fetchingCategories} =
+    useCategoryViewModel();
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   const onFormSubmit = () => {
     console.log(formState.name);
@@ -36,6 +43,8 @@ const useNewBacklogViewController = () => {
   };
 
   return {
+    categories,
+    fetchingCategories,
     formState,
     creatingBacklog,
     onChangeText,

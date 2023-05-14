@@ -9,17 +9,21 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 type NewBacklogProps = NativeStackScreenProps<RootStackParamList, 'NewBacklog'>;
 
-const countries = ['Egypt', 'Canada', 'Australia', 'Ireland'];
-
 const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
-  const {formState, creatingBacklog, onChangeText, onFormSubmit} =
-    useNewBacklogViewController();
+  const {
+    formState,
+    creatingBacklog,
+    onChangeText,
+    onFormSubmit,
+    categories,
+    fetchingCategories,
+  } = useNewBacklogViewController();
 
   React.useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <Button
-          icon="camera"
+          icon="content-save"
           mode="text"
           onPress={onFormSubmit}
           disabled={creatingBacklog}>
@@ -39,16 +43,16 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
       />
       <View style={styles.categoryContainer}>
         <SelectDropdown
-          data={countries}
+          data={categories}
           onSelect={(selectedItem, index) => {
             console.log(selectedItem, index);
           }}
-          defaultButtonText={'Select country'}
+          defaultButtonText={'Select category'}
           buttonTextAfterSelection={(selectedItem, index) => {
-            return selectedItem;
+            return selectedItem.value;
           }}
           rowTextForSelection={(item, index) => {
-            return item;
+            return item.value;
           }}
           buttonStyle={styles.dropdown4BtnStyle}
           buttonTextStyle={styles.dropdown4BtnTxtStyle}
@@ -67,11 +71,11 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
           rowTextStyle={styles.dropdown4RowTxtStyle}
         />
         <Button
-          icon="camera"
+          icon="plus"
           mode="contained"
           onPress={() => console.log('Pressed')}
-          style={{flexBasis: '50%'}}>
-          New
+          style={{flexBasis: '30%', margin: 10}}>
+          Add New
         </Button>
       </View>
 

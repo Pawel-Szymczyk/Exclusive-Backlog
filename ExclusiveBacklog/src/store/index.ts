@@ -1,10 +1,12 @@
 import {configureStore} from '@reduxjs/toolkit';
 
 import backlogReducer from './backlogSlice';
+import categoryReducer from './categorySlice';
 
 const store = configureStore({
   reducer: {
     backlog: backlogReducer,
+    category: categoryReducer,
   },
 });
 
