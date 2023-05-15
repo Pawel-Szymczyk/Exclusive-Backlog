@@ -6,6 +6,7 @@ import {RootStackParamList} from '../../App';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import SelectDropdown from 'react-native-select-dropdown';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import DatePickerComponent from '../components/DatePickerComponent';
 
 type NewBacklogProps = NativeStackScreenProps<RootStackParamList, 'NewBacklog'>;
 
@@ -41,6 +42,21 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
         onChangeText={(text: string) => onChangeText('name', text)}
         mode="outlined"
       />
+      <TextInput
+        label="Price"
+        keyboardType="numeric"
+        value={formState.price}
+        onChangeText={(text: string) => onChangeText('price', text)}
+        mode="outlined"
+      />
+      <TextInput
+        label="Quantity"
+        keyboardType="numeric"
+        value={formState.quantity}
+        onChangeText={(text: string) => onChangeText('quantity', text)}
+        mode="outlined"
+      />
+      <DatePickerComponent />
       <View style={styles.categoryContainer}>
         <SelectDropdown
           data={categories}

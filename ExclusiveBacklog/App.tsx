@@ -8,6 +8,9 @@ import HomeBacklogsView from './src/views/HomeView';
 import NewBacklogView from './src/views/NewBacklogView';
 import BacklogView from './src/views/BacklogView';
 import {BacklogType} from './src/types/BacklogType';
+import {enGB, registerTranslation} from 'react-native-paper-dates';
+
+registerTranslation('en-GB', enGB);
 
 export type RootStackParamList = {
   HomeBacklogs: undefined;

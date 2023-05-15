@@ -5,16 +5,16 @@ import useCategoryViewModel from '../viewmodels/useCategoryViewModel';
 
 type BacklogFormState = {
   name: string;
-  price: number;
-  quality: number;
+  price: string;
+  quantity: string;
   category: string;
   //   buyOn: Date;
 };
 
 const initialBacklogFormState: BacklogFormState = {
   name: '',
-  price: 0,
-  quality: 1,
+  price: '0',
+  quantity: '1',
   category: 'none',
   //   buyOn: new Date(),
 };
@@ -33,6 +33,7 @@ const useNewBacklogViewController = () => {
   }, []);
 
   const onFormSubmit = () => {
+    console.log(formState.price);
     console.log(formState.name);
     // createBacklog(formState);
     // navigate
