@@ -33,6 +33,11 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
     });
   }, [navigation]);
 
+  const handleBuyOnChange = (newBuyOn: String) => {
+    // setValue(newValue);
+    console.log(newBuyOn);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.form}>
@@ -60,7 +65,7 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
           style={styles.formInput}
         />
 
-        <DatePickerComponent />
+        <DatePickerComponent onBuyOnChange={handleBuyOnChange} />
 
         <CategoryComponent categories={categories} />
       </View>

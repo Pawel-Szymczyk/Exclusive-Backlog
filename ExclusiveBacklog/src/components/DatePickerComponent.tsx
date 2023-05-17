@@ -1,9 +1,23 @@
+import moment from 'moment';
 import * as React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Button, TextInput, Text} from 'react-native-paper';
 import {DatePickerModal} from 'react-native-paper-dates';
 
-export default function DatePickerComponent() {
+// interface DatePickerComponentProps {
+//   buyOn: string;
+//   //   onListItemPressEventHandler: (backlog: BacklogType) => void;
+//   //   listItems: BacklogType[];
+// }
+
+type DatePickerComponentProps = {
+  onBuyOnChange: (value: string) => void;
+};
+
+// export default function DatePickerComponent({ onBuyOnChange }) {
+const DatePickerComponent = ({onBuyOnChange}: DatePickerComponentProps) => {
+  // const {buyOn} = props;
+
   const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [open, setOpen] = React.useState(false);
 
@@ -15,6 +29,9 @@ export default function DatePickerComponent() {
     (params: any) => {
       setOpen(false);
       setDate(params.date);
+
+      onBuyOnChange(moment(date?.toString()).format('DD/MM/YYYY'));
+      // buyOn = moment(date?.toString()).format('DD/MM/YYYY')
     },
     [setOpen, setDate],
   );
@@ -24,7 +41,7 @@ export default function DatePickerComponent() {
       <View style={styles.rowContainer}>
         <TextInput
           label="Buy On"
-          value={''}
+          value={moment(date?.toString()).format('DD/MM/YYYY')}
           // onChangeText={(text: string) => onChangeText('name', text)}
           mode="outlined"
           style={styles.formInput}
@@ -62,7 +79,7 @@ export default function DatePickerComponent() {
       </View>
     </>
   );
-}
+};
 
 const styles = StyleSheet.create({
   rowContainer: {
@@ -88,3 +105,5 @@ const styles = StyleSheet.create({
     width: 130,
   },
 });
+
+export default DatePickerComponent;

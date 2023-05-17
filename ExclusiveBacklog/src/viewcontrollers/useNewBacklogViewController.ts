@@ -8,6 +8,7 @@ type BacklogFormState = {
   price: string;
   quantity: string;
   category: string;
+  buyOn: string;
   //   buyOn: Date;
 };
 
@@ -16,7 +17,7 @@ const initialBacklogFormState: BacklogFormState = {
   price: '0',
   quantity: '1',
   category: 'none',
-  //   buyOn: new Date(),
+  buyOn: '',
 };
 
 const useNewBacklogViewController = () => {
