@@ -11,7 +11,7 @@ type NewBacklogProps = NativeStackScreenProps<RootStackParamList, 'NewBacklog'>;
 
 const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
   const {
-    formState,
+    state,
     creatingBacklog,
     onChangeText,
     onFormSubmit,
@@ -35,6 +35,7 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
 
   const handleBuyOnChange = (newBuyOn: String) => {
     // setValue(newValue);
+    state.buyOn;
     console.log(newBuyOn);
   };
 
@@ -43,7 +44,7 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
       <View style={styles.form}>
         <TextInput
           label="Name"
-          value={formState.name}
+          value={state.name}
           onChangeText={(text: string) => onChangeText('name', text)}
           mode="outlined"
           style={styles.formInput}
@@ -51,7 +52,7 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
         <TextInput
           label="Price"
           keyboardType="numeric"
-          value={formState.price}
+          value={state.price}
           onChangeText={(text: string) => onChangeText('price', text)}
           mode="outlined"
           style={styles.formInput}
@@ -59,7 +60,7 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
         <TextInput
           label="Quantity"
           keyboardType="numeric"
-          value={formState.quantity}
+          value={state.quantity}
           onChangeText={(text: string) => onChangeText('quantity', text)}
           mode="outlined"
           style={styles.formInput}

@@ -14,10 +14,7 @@ type DatePickerComponentProps = {
   onBuyOnChange: (value: string) => void;
 };
 
-// export default function DatePickerComponent({ onBuyOnChange }) {
 const DatePickerComponent = ({onBuyOnChange}: DatePickerComponentProps) => {
-  // const {buyOn} = props;
-
   const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [open, setOpen] = React.useState(false);
 
@@ -30,7 +27,7 @@ const DatePickerComponent = ({onBuyOnChange}: DatePickerComponentProps) => {
       setOpen(false);
       setDate(params.date);
 
-      onBuyOnChange(moment(date?.toString()).format('DD/MM/YYYY'));
+      onBuyOnChange(moment(params.date?.toString()).format('DD/MM/YYYY'));
       // buyOn = moment(date?.toString()).format('DD/MM/YYYY')
     },
     [setOpen, setDate],

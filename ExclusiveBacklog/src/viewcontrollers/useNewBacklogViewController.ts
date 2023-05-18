@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {BacklogType} from '../types/BacklogType';
 import useBacklogViewModel from '../viewmodels/useBacklogViewModel';
 import useCategoryViewModel from '../viewmodels/useCategoryViewModel';
@@ -22,9 +22,7 @@ const initialBacklogFormState: BacklogFormState = {
 
 const useNewBacklogViewController = () => {
   //   var backlog: BacklogType;
-  const [formState, setFormState] = useState<BacklogFormState>(
-    initialBacklogFormState,
-  );
+  const [state, setState] = useState(initialBacklogFormState);
   const {createBacklog, creatingBacklog} = useBacklogViewModel();
   const {categories, fetchCategories, fetchingCategories} =
     useCategoryViewModel();
@@ -33,21 +31,46 @@ const useNewBacklogViewController = () => {
     fetchCategories();
   }, []);
 
+  useEffect(() => {
+    // Perform any necessary actions when the state changes
+    initialBacklogFormState.name = state.name;
+    initialBacklogFormState.price = state.price;
+    initialBacklogFormState.quantity = state.quantity;
+    initialBacklogFormState.category = state.category;
+    initialBacklogFormState.buyOn = state.buyOn;
+
+    console.log(state);
+  }, [state]); // Add state as a dependency
+
   const onFormSubmit = () => {
-    console.log(formState.price);
-    console.log(formState.name);
+    console.log(initialBacklogFormState.name);
+
+    createBacklog(
+      initialBacklogFormState.name,
+      initialBacklogFormState.category,
+    );
+
+    // e.preventDefault();
+    // const {name} = state;
+    // console.log(state.price);
+    // console.log(name);
     // createBacklog(formState);
     // navigate
   };
+
   const onChangeText = (fieldName: keyof BacklogFormState, text: string) => {
-    // console.log(text);
-    setFormState(prevState => ({...prevState, [fieldName]: text}));
+    setState(prevState => ({
+      ...prevState,
+      [fieldName]: text,
+    }));
+
+    // console.log(state.name);
   };
 
   return {
     categories,
     fetchingCategories,
-    formState,
+    state,
     creatingBacklog,
     onChangeText,
     onFormSubmit,
