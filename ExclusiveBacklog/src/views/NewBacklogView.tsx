@@ -1,32 +1,42 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Button, TextInput} from 'react-native-paper';
+import {Button, Dialog, TextInput} from 'react-native-paper';
 import useNewBacklogViewController from '../viewcontrollers/useNewBacklogViewController';
 import {RootStackParamList} from '../../App';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import DatePickerComponent from '../components/DatePickerComponent';
 import CategoryComponent from '../components/CategoryComponent';
+import {ICategory} from '../models/Category';
 
 type NewBacklogProps = NativeStackScreenProps<RootStackParamList, 'NewBacklog'>;
 
 const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
   const {
-    state,
+    backlogFormState,
+    categoryFormState,
     creatingBacklog,
     onChangeText,
+    onChangeCategoryText,
     onFormSubmit,
+    onCategoryFormSubmit,
     categories,
     fetchingCategories,
   } = useNewBacklogViewController();
 
+  const [visible, setVisible] = React.useState(true);
+  // const [refreshContent, setRefreshContent] = React.useState(false);
+
+  const showDialog = () => setVisible(true);
+
+  const hideDialog = () => {
+    setVisible(false);
+    // setRefreshContent(!refreshContent);
+  };
+
   React.useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Button
-          icon="content-save"
-          mode="text"
-          onPress={onFormSubmit}
-          disabled={creatingBacklog}>
+        <Button icon="content-save" mode="text" onPress={onFormSubmit} disabled={creatingBacklog}>
           Save
         </Button>
       ),
@@ -35,10 +45,18 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
 
   const handleBuyOnChange = (newBuyOn: string) => {
     // setValue(newValue);
-    state.buyOn;
-    console.log(newBuyOn);
+    // state.buyOn;
+    // console.log(newBuyOn);
 
     onChangeText('buyOn', newBuyOn);
+  };
+
+  const handleCategoryChange = (category: ICategory) => {
+    onChangeText('category', category.id);
+  };
+
+  const handleOnNewCategoryPress = () => {
+    setVisible(true);
   };
 
   return (
@@ -46,7 +64,7 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
       <View style={styles.form}>
         <TextInput
           label="Name"
-          value={state.name}
+          value={backlogFormState.name}
           onChangeText={(text: string) => onChangeText('name', text)}
           mode="outlined"
           style={styles.formInput}
@@ -54,7 +72,7 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
         <TextInput
           label="Price"
           keyboardType="numeric"
-          value={state.price}
+          value={backlogFormState.price.toString()}
           onChangeText={(text: string) => onChangeText('price', text)}
           mode="outlined"
           style={styles.formInput}
@@ -62,7 +80,7 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
         <TextInput
           label="Quantity"
           keyboardType="numeric"
-          value={state.quantity}
+          value={backlogFormState.quantity.toString()}
           onChangeText={(text: string) => onChangeText('quantity', text)}
           mode="outlined"
           style={styles.formInput}
@@ -70,7 +88,13 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
 
         <DatePickerComponent onBuyOnChange={handleBuyOnChange} />
 
-        <CategoryComponent categories={categories} />
+        {/* {refreshContent && ( */}
+        <CategoryComponent
+          onCategoryChange={handleCategoryChange}
+          categories={categories}
+          onNewCategoryPress={handleOnNewCategoryPress}
+        />
+        {/* )} */}
       </View>
       <View>
         <Button
@@ -81,6 +105,34 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
           Generate QR Code
         </Button>
       </View>
+
+      <Dialog visible={visible} onDismiss={hideDialog}>
+        <Dialog.Title>New Backlog Category</Dialog.Title>
+        <Dialog.Content>
+          <TextInput
+            label="Name"
+            value={categoryFormState.name}
+            onChangeText={(text: string) => onChangeCategoryText('name', text)}
+            mode="outlined"
+            style={styles.formInput}
+          />
+          <TextInput
+            label="Value"
+            value={categoryFormState.value}
+            onChangeText={(text: string) => onChangeCategoryText('value', text)}
+            mode="outlined"
+            style={styles.formInput}
+          />
+        </Dialog.Content>
+        <Dialog.Actions>
+          <Button icon="close" mode="text" onPress={hideDialog}>
+            Cancel
+          </Button>
+          <Button icon="content-save" mode="text" onPress={hideDialog} disabled={creatingBacklog}>
+            Save
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
     </View>
   );
 };

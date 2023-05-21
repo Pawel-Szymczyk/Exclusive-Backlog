@@ -1,31 +1,30 @@
 import {useCallback, useEffect, useState} from 'react';
-// import {BacklogType} from '../types/BacklogType';
 import useBacklogViewModel from '../viewmodels/useBacklogViewModel';
 import useCategoryViewModel from '../viewmodels/useCategoryViewModel';
 import {IBacklog} from '../models/Backlog';
-// import {Backlog} from '../models/Backlog';
+import {ICategory} from '../models/Category';
 
-interface BacklogFormState {
-  name: string;
-  price: string;
-  quantity: string;
-  category: string;
-  buyOn: string;
-}
-
-const initialBacklogFormState: BacklogFormState = {
+const initialBacklogFormState: IBacklog = {
+  id: '',
   name: '',
-  price: '0',
-  quantity: '1',
+  price: 0,
+  quantity: 1,
   category: 'none',
   buyOn: '',
 };
 
+const initialCategoryFormState: ICategory = {
+  id: '',
+  name: '',
+  value: '',
+};
+
 const useNewBacklogViewController = () => {
-  const [state, setState] = useState(initialBacklogFormState);
+  const [backlogFormState, setBacklogFormState] = useState(initialBacklogFormState);
+  const [categoryFormState, setCategoryFormState] = useState(initialCategoryFormState);
+
   const {createBacklog, creatingBacklog} = useBacklogViewModel();
-  const {categories, fetchCategories, fetchingCategories} =
-    useCategoryViewModel();
+  const {categories, fetchCategories, fetchingCategories} = useCategoryViewModel();
 
   useEffect(() => {
     fetchCategories();
@@ -33,25 +32,35 @@ const useNewBacklogViewController = () => {
 
   useEffect(() => {
     // Perform any necessary actions when the state changes
-    initialBacklogFormState.name = state.name;
-    initialBacklogFormState.price = state.price;
-    initialBacklogFormState.quantity = state.quantity;
-    initialBacklogFormState.category = state.category;
-    initialBacklogFormState.buyOn = state.buyOn;
+    initialBacklogFormState.name = backlogFormState.name;
+    initialBacklogFormState.price = backlogFormState.price;
+    initialBacklogFormState.quantity = backlogFormState.quantity;
+    initialBacklogFormState.category = backlogFormState.category;
+    initialBacklogFormState.buyOn = backlogFormState.buyOn;
+    // console.log(state);
+  }, [backlogFormState]); // Add state as a dependency
 
-    console.log(state);
-  }, [state]); // Add state as a dependency
+  useEffect(() => {
+    initialCategoryFormState.name = categoryFormState.name;
+    initialCategoryFormState.value = categoryFormState.value;
+  }, [categoryFormState]);
 
   const onFormSubmit = (params: any) => {
-    console.log(initialBacklogFormState.name);
+    console.log(backlogFormState.name);
 
     const newBacklog: IBacklog = {
-      id: '',
-      name: initialBacklogFormState.name,
-      category: initialBacklogFormState.category,
-      buyOn: initialBacklogFormState.buyOn,
-      price: Number(initialBacklogFormState.price),
-      quantity: Number(initialBacklogFormState.quantity),
+      // id: '',
+      // name: initialBacklogFormState.name,
+      // category: initialBacklogFormState.category,
+      // buyOn: initialBacklogFormState.buyOn,
+      // price: Number(initialBacklogFormState.price),
+      // quantity: Number(initialBacklogFormState.quantity),
+      id: backlogFormState.id,
+      name: backlogFormState.name,
+      category: backlogFormState.category,
+      buyOn: backlogFormState.buyOn,
+      price: Number(backlogFormState.price),
+      quantity: Number(backlogFormState.quantity),
     };
 
     createBacklog(newBacklog);
@@ -59,20 +68,33 @@ const useNewBacklogViewController = () => {
     // navigate
   };
 
-  const onChangeText = (fieldName: keyof BacklogFormState, text: string) => {
-    setState(prevState => ({
+  const onCategoryFormSubmit = (params: any) => {};
+
+  // const onChangeText = (fieldName: keyof BacklogFormState, text: string) => {
+  const onChangeText = (fieldName: keyof IBacklog, text: string) => {
+    setBacklogFormState(prevState => ({
+      ...prevState,
+      [fieldName]: text,
+    }));
+  };
+
+  const onChangeCategoryText = (fieldName: keyof ICategory, text: string) => {
+    setCategoryFormState(prevState => ({
       ...prevState,
       [fieldName]: text,
     }));
   };
 
   return {
+    backlogFormState,
+    categoryFormState,
     categories,
     fetchingCategories,
-    state,
     creatingBacklog,
     onChangeText,
+    onChangeCategoryText,
     onFormSubmit,
+    onCategoryFormSubmit,
   };
 };
 

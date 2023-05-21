@@ -1,25 +1,27 @@
 import * as React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Button} from 'react-native-paper';
+import {Button, Dialog} from 'react-native-paper';
 import SelectDropdown from 'react-native-select-dropdown';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 // import {CategoryType} from '../types/CategoryType';
 import {ICategory} from '../models/Category';
 
 interface CategoryComponentProps {
+  onCategoryChange: (value: ICategory) => void;
   categories: ICategory[];
-  //   onListItemPressEventHandler: (backlog: BacklogType) => void;
-  //   listItems: BacklogType[];
+  onNewCategoryPress: () => void;
 }
 
 const CategoryComponent = (props: CategoryComponentProps) => {
-  const {categories} = props;
+  const {categories, onCategoryChange, onNewCategoryPress} = props;
+
   return (
     <View style={styles.rowContainer}>
       <SelectDropdown
         data={categories}
         onSelect={(selectedItem, index) => {
-          console.log(selectedItem, index);
+          // console.log(selectedItem, index);
+          onCategoryChange(selectedItem);
         }}
         defaultButtonText={'Select category'}
         buttonTextAfterSelection={(selectedItem, index) => {
@@ -44,10 +46,11 @@ const CategoryComponent = (props: CategoryComponentProps) => {
         // rowStyle={styles.dropdown4RowStyle}
         // rowTextStyle={styles.dropdown4RowTxtStyle}
       />
+
       <Button
         icon="folder"
         mode="contained"
-        onPress={() => console.log('Pressed')}
+        onPress={onNewCategoryPress}
         style={styles.formButton}>
         Add Cat...
       </Button>

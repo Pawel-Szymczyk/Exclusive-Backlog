@@ -5,11 +5,13 @@ import {StyleSheet, View} from 'react-native';
 import {Button, TextInput, Text} from 'react-native-paper';
 import {DatePickerModal} from 'react-native-paper-dates';
 
-type DatePickerComponentProps = {
+interface DatePickerComponentProps {
   onBuyOnChange: (value: string) => void;
-};
+}
 
-const DatePickerComponent = ({onBuyOnChange}: DatePickerComponentProps) => {
+const DatePickerComponent = (props: DatePickerComponentProps) => {
+  const {onBuyOnChange} = props;
+
   const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [open, setOpen] = React.useState(false);
 
