@@ -3,10 +3,11 @@ import {StyleSheet, View} from 'react-native';
 import {Button} from 'react-native-paper';
 import SelectDropdown from 'react-native-select-dropdown';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {CategoryType} from '../types/CategoryType';
+// import {CategoryType} from '../types/CategoryType';
+import {ICategory} from '../models/Category';
 
 interface CategoryComponentProps {
-  categories: CategoryType[];
+  categories: ICategory[];
   //   onListItemPressEventHandler: (backlog: BacklogType) => void;
   //   listItems: BacklogType[];
 }

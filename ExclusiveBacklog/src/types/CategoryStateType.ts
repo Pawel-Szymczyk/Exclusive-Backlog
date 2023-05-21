@@ -1,8 +1,10 @@
-import {CategoryType} from './CategoryType';
+// import {CategoryType} from './CategoryType';
+
+import {ICategory} from '../models/Category';
 
 export type CategoryStateType = {
   fetchingCategories: boolean;
-  categories: Array<CategoryType>;
+  categories: Array<ICategory>;
 
   creatingCategory: boolean;
   createCategorySuccess: boolean;

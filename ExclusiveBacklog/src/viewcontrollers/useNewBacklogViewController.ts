@@ -11,7 +11,6 @@ interface BacklogFormState {
   quantity: string;
   category: string;
   buyOn: string;
-  //   buyOn: Date;
 }
 
 const initialBacklogFormState: BacklogFormState = {
@@ -23,7 +22,6 @@ const initialBacklogFormState: BacklogFormState = {
 };
 
 const useNewBacklogViewController = () => {
-  //   var backlog: BacklogType;
   const [state, setState] = useState(initialBacklogFormState);
   const {createBacklog, creatingBacklog} = useBacklogViewModel();
   const {categories, fetchCategories, fetchingCategories} =
@@ -58,11 +56,6 @@ const useNewBacklogViewController = () => {
 
     createBacklog(newBacklog);
 
-    // e.preventDefault();
-    // const {name} = state;
-    // console.log(state.price);
-    // console.log(name);
-    // createBacklog(formState);
     // navigate
   };
 
@@ -71,8 +64,6 @@ const useNewBacklogViewController = () => {
       ...prevState,
       [fieldName]: text,
     }));
-
-    // console.log(state.name);
   };
 
   return {

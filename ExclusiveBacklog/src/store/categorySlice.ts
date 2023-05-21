@@ -39,7 +39,7 @@ export const categorySlice = createSlice({
         {
           name: action.payload.name,
           value: action.payload.value,
-          _id: nanoid(),
+          id: nanoid(),
         },
       ]);
     },
