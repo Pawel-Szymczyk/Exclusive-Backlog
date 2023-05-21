@@ -1,9 +1,24 @@
 import {createAsyncThunk, createSlice, nanoid} from '@reduxjs/toolkit';
-import CategoryStore from './categoryStore';
 import exclusiveBacklogCategoryService from '../services/exclusiveBacklogCategoryService';
+import {CategoryStateType} from '../types/CategoryStateType';
 
-const initialState = CategoryStore;
 const categoryService = new exclusiveBacklogCategoryService();
+
+const initialState: CategoryStateType = {
+  fetchingCategories: false,
+  categories: [],
+  creatingCategory: false,
+  createCategorySuccess: false,
+  createCategoryError: false,
+
+  updatingCategory: false,
+  updateCategorySuccess: false,
+  updateCategoryError: false,
+
+  deletingCategory: false,
+  deleteCategorySuccess: false,
+  deleteCategoryError: false,
+};
 
 export const fetchCategories = createAsyncThunk(
   'category/fetchCategories',

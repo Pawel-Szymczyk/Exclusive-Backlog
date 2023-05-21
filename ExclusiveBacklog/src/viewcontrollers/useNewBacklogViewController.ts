@@ -1,16 +1,18 @@
 import {useCallback, useEffect, useState} from 'react';
-import {BacklogType} from '../types/BacklogType';
+// import {BacklogType} from '../types/BacklogType';
 import useBacklogViewModel from '../viewmodels/useBacklogViewModel';
 import useCategoryViewModel from '../viewmodels/useCategoryViewModel';
+import {IBacklog} from '../models/Backlog';
+// import {Backlog} from '../models/Backlog';
 
-type BacklogFormState = {
+interface BacklogFormState {
   name: string;
   price: string;
   quantity: string;
   category: string;
   buyOn: string;
   //   buyOn: Date;
-};
+}
 
 const initialBacklogFormState: BacklogFormState = {
   name: '',
@@ -42,13 +44,19 @@ const useNewBacklogViewController = () => {
     console.log(state);
   }, [state]); // Add state as a dependency
 
-  const onFormSubmit = () => {
+  const onFormSubmit = (params: any) => {
     console.log(initialBacklogFormState.name);
 
-    createBacklog(
-      initialBacklogFormState.name,
-      initialBacklogFormState.category,
-    );
+    const newBacklog: IBacklog = {
+      id: '',
+      name: initialBacklogFormState.name,
+      category: initialBacklogFormState.category,
+      buyOn: initialBacklogFormState.buyOn,
+      price: Number(initialBacklogFormState.price),
+      quantity: Number(initialBacklogFormState.quantity),
+    };
+
+    createBacklog(newBacklog);
 
     // e.preventDefault();
     // const {name} = state;

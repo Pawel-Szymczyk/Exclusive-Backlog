@@ -1,8 +1,10 @@
-import {BacklogType} from './BacklogType';
+import {IBacklog} from '../models/Backlog';
+// import {BacklogType} from './BacklogType';
 
 export type BacklogStateType = {
   fetchingBacklogs: boolean;
-  backlogs: Array<BacklogType>;
+  // backlogs: Array<BacklogType>;
+  backlogs: Array<IBacklog>;
 
   creatingBacklog: boolean;
   createBacklogSuccess: boolean;

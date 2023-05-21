@@ -1,9 +1,10 @@
 import {useEffect} from 'react';
-import {BacklogType} from '../types/BacklogType';
+// import {BacklogType} from '../types/BacklogType';
 import useBacklogViewModel from '../viewmodels/useBacklogViewModel';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../App';
+import {IBacklog} from '../models/Backlog';
 
 const useHomeBacklogViewController = () => {
   const navigation: NativeStackNavigationProp<
@@ -18,7 +19,8 @@ const useHomeBacklogViewController = () => {
     fetchBacklogs();
   }, []);
 
-  const onPressBacklogItem = (backlog: BacklogType) => {
+  // const onPressBacklogItem = (backlog: BacklogType) => {
+  const onPressBacklogItem = (backlog: IBacklog) => {
     navigation.navigate('Backlog', {backlog});
   };
 

@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect} from 'react';
-import {AppDispatch} from '../store';
+import {AppDispatch} from '../store/store';
 import {CategoryStateType, StoreType} from '../types/CategoryStateType';
 import {CategoryAction} from '../store/categorySlice';
 

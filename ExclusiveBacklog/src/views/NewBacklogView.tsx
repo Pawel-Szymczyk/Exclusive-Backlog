@@ -33,10 +33,12 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
     });
   }, [navigation]);
 
-  const handleBuyOnChange = (newBuyOn: String) => {
+  const handleBuyOnChange = (newBuyOn: string) => {
     // setValue(newValue);
     state.buyOn;
     console.log(newBuyOn);
+
+    onChangeText('buyOn', newBuyOn);
   };
 
   return (

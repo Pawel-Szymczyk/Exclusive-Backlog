@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {ScrollView} from 'react-native';
 import {Button, DataTable} from 'react-native-paper';
-import {BacklogTDO} from '../models/BacklogTDO';
-import {BacklogType} from '../types/BacklogType';
+import {IBacklog} from '../models/Backlog';
+// import {BacklogType} from '../types/BacklogType';
 
 const numberOfItemsPerPageList = [2, 3, 4];
 const items = [
@@ -22,7 +22,8 @@ const items = [
 
 interface TableComponentProps {
   onPressEventHandler: () => void;
-  items: BacklogType[];
+  // items: BacklogType[];
+  items: IBacklog[];
 }
 
 const TableComponent = (props: TableComponentProps) => {
@@ -49,7 +50,7 @@ const TableComponent = (props: TableComponentProps) => {
         </DataTable.Header>
 
         {items.map(x => (
-          <DataTable.Row key={x._id}>
+          <DataTable.Row key={x.id}>
             <DataTable.Cell>
               <Button onPress={onPressEventHandler}>{x.name}</Button>{' '}
             </DataTable.Cell>

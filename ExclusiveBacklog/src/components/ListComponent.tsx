@@ -15,10 +15,12 @@ const createAccordionList = (items: BacklogType[]): AccordionItem[] => {
   const groupedItems: {[category: string]: BacklogType[]} = {};
 
   items.forEach(item => {
-    if (groupedItems[item.category['value']]) {
-      groupedItems[item.category['value']].push(item);
-    } else {
-      groupedItems[item.category['value']] = [item];
+    if (item.category != null) {
+      if (groupedItems[item.category['value']]) {
+        groupedItems[item.category['value']].push(item);
+      } else {
+        groupedItems[item.category['value']] = [item];
+      }
     }
   });
 

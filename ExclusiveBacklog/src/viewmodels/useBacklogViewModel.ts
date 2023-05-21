@@ -2,7 +2,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {BacklogStateType, StoreType} from '../types/BacklogStateType';
 import {BacklogAction, fetchBacklogs} from '../store/backlogSlice';
 import {useEffect} from 'react';
-import {AppDispatch} from '../store';
+import {AppDispatch} from '../store/store';
+import {IBacklog} from '../models/Backlog';
+// import {Backlog} from '../models/Backlog';
 
 const useBacklogViewModel = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -37,14 +39,14 @@ const useBacklogViewModel = () => {
     backlogs,
     fetchBacklogs: () => dispatch(fetchBacklogs()),
 
-    createBacklog: (name: string, category: string) =>
-      dispatch(createBacklog({name, category})),
+    createBacklog: (newBacklog: IBacklog) =>
+      dispatch(createBacklog(newBacklog)),
     creatingBacklog,
     createBacklogSuccess,
     createBacklogError,
 
-    updateBacklog: (payload: {_id: string; name: string; category: string}) =>
-      dispatch(updateBacklog(payload)),
+    // updateBacklog: (payload: {_id: string; name: string; category: string}) =>
+    //   dispatch(updateBacklog(payload)),
     updatingBacklog,
     updateBacklogSuccess,
     updateBacklogError,
