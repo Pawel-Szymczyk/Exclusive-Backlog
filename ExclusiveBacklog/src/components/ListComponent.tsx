@@ -1,18 +1,18 @@
 import * as React from 'react';
 import {List} from 'react-native-paper';
-import {BacklogType} from '../types/BacklogType';
 import {ScrollView} from 'react-native';
+import {IBacklog} from '../models/Backlog';
 
 // Helping methods ---------------------------------------------------------
 
 interface AccordionItem {
   key: number;
   title: string;
-  data: BacklogType[];
+  data: IBacklog[];
 }
 
-const createAccordionList = (items: BacklogType[]): AccordionItem[] => {
-  const groupedItems: {[category: string]: BacklogType[]} = {};
+const createAccordionList = (items: IBacklog[]): AccordionItem[] => {
+  const groupedItems: {[category: string]: IBacklog[]} = {};
 
   items.forEach(item => {
     if (item.category != null) {
@@ -35,8 +35,9 @@ const createAccordionList = (items: BacklogType[]): AccordionItem[] => {
 
 interface ListComponentProps {
   title: string;
-  onListItemPressEventHandler: (backlog: BacklogType) => void;
-  listItems: BacklogType[];
+  // onListItemPressEventHandler: (backlog: IBacklog) => void;
+  onListItemPressEventHandler: (id: string, name: string) => void;
+  listItems: IBacklog[];
 }
 
 const ListComponent = (props: ListComponentProps) => {
@@ -54,9 +55,9 @@ const ListComponent = (props: ListComponentProps) => {
           <List.Accordion key={accordionItem.key} title={accordionItem.title}>
             {accordionItem.data.map(item => (
               <List.Item
-                key={item._id}
+                key={item.id}
                 title={item.name}
-                onPress={() => onListItemPressEventHandler(item)}
+                onPress={() => onListItemPressEventHandler(item.id, item.name)}
               />
             ))}
           </List.Accordion>

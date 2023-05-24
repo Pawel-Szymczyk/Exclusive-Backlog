@@ -1,14 +1,6 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  TouchableOpacity,
-  FlatList,
-  ScrollView,
-} from 'react-native';
+import {StyleSheet, Text, View, Button, TouchableOpacity, FlatList, ScrollView} from 'react-native';
 import {RootStackParamList} from '../../App';
 
 type BacklogProps = NativeStackScreenProps<RootStackParamList, 'Backlog'>;
@@ -16,13 +8,13 @@ type BacklogProps = NativeStackScreenProps<RootStackParamList, 'Backlog'>;
 const BacklogView = ({route, navigation}: BacklogProps) => {
   React.useEffect(() => {
     navigation.setOptions({
-      title: route.params.backlog.name,
+      title: route.name,
     });
   }, [navigation]);
 
   return (
     <View style={styles.container}>
-      <Text>{route.params.backlog.name}</Text>
+      <Text>{route.name}</Text>
     </View>
   );
 };

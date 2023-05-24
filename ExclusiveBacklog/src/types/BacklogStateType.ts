@@ -6,6 +6,11 @@ export type BacklogStateType = {
   // backlogs: Array<BacklogType>;
   backlogs: Array<IBacklog>;
 
+  fetchingBacklogById: boolean;
+  fetchingBacklogByIdSuccess: boolean;
+  fetchingBacklogByIdBacklogError: boolean;
+  backlogById: IBacklog;
+
   creatingBacklog: boolean;
   createBacklogSuccess: boolean;
   createBacklogError: boolean;

@@ -23,14 +23,17 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
     fetchingCategories,
   } = useNewBacklogViewController();
 
-  const [visible, setVisible] = React.useState(true);
-  // const [refreshContent, setRefreshContent] = React.useState(false);
+  const [visible, setVisible] = React.useState(false);
 
   const showDialog = () => setVisible(true);
 
   const hideDialog = () => {
     setVisible(false);
-    // setRefreshContent(!refreshContent);
+  };
+
+  const onSaveNewCategoryButtonClick = (params: any) => {
+    onCategoryFormSubmit(params);
+    setVisible(false);
   };
 
   React.useEffect(() => {
@@ -44,10 +47,6 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
   }, [navigation]);
 
   const handleBuyOnChange = (newBuyOn: string) => {
-    // setValue(newValue);
-    // state.buyOn;
-    // console.log(newBuyOn);
-
     onChangeText('buyOn', newBuyOn);
   };
 
@@ -88,13 +87,11 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
 
         <DatePickerComponent onBuyOnChange={handleBuyOnChange} />
 
-        {/* {refreshContent && ( */}
         <CategoryComponent
           onCategoryChange={handleCategoryChange}
           categories={categories}
           onNewCategoryPress={handleOnNewCategoryPress}
         />
-        {/* )} */}
       </View>
       <View>
         <Button
@@ -128,7 +125,7 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
           <Button icon="close" mode="text" onPress={hideDialog}>
             Cancel
           </Button>
-          <Button icon="content-save" mode="text" onPress={hideDialog} disabled={creatingBacklog}>
+          <Button icon="content-save" mode="text" onPress={onSaveNewCategoryButtonClick}>
             Save
           </Button>
         </Dialog.Actions>

@@ -16,6 +16,12 @@ const initialState: BacklogStateType = {
     //   category: 'test 1',
     // },
   ],
+
+  fetchingBacklogById: false,
+  fetchingBacklogByIdSuccess: false,
+  fetchingBacklogByIdBacklogError: false,
+  backlogById: {id: '', buyOn: '', category: '', name: '', price: 0, quantity: 0},
+
   creatingBacklog: false,
   createBacklogSuccess: false,
   createBacklogError: false,
@@ -31,10 +37,14 @@ const initialState: BacklogStateType = {
 
 // -------------------------------------------------------
 // services
-export const fetchBacklogs = createAsyncThunk(
-  'backlogs/fetchBacklogs',
-  async () => {
-    return backlogService.getAllBacklogs();
+export const fetchBacklogs = createAsyncThunk('backlogs/fetchBacklogs', async () => {
+  return backlogService.getAllBacklogs();
+});
+
+export const fetchBacklogById = createAsyncThunk(
+  'backlogs/fetchBacklogById',
+  async (id: string) => {
+    return backlogService.getBacklogById(id);
   },
 );
 
@@ -82,8 +92,8 @@ export const backlogSlice = createSlice({
       // -----------------------------------------------
       // create backlog
       .addCase(createBacklog.fulfilled, (state, action) => {
-        // state.backlogs.push(action.payload);
-        // state. = action.payload;
+        state.createBacklogSuccess = true;
+        state.backlogs.push(action.payload);
       })
 
       // -----------------------------------------------

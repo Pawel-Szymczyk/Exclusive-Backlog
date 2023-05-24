@@ -17,8 +17,9 @@ export type RootStackParamList = {
   HomeBacklogs: undefined;
   NewBacklog: undefined;
   Backlog: {
-    // backlog: BacklogType;
-    backlog: IBacklog;
+    // backlog: IBacklog;
+    name: string;
+    id: string;
   };
 };
 

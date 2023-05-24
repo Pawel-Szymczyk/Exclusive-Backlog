@@ -22,12 +22,16 @@ export default class exclusiveBacklogCategoryService {
     }
   }
 
-  // getAllCategories() {
-  //   return fetch(this.serviceURI + '/categories').then(res => {
-  //     if (!res.ok) {
-  //       throw new Error('error');
-  //     }
-  //     return res.json();
-  //   });
-  // }
+  createCategory(data: ICategory) {
+    return fetch(this.serviceURI + '/categories', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data),
+    }).then(function (res) {
+      return res.json();
+    });
+    // .then(function (data) {
+    //   alert(JSON.stringify(data)); // <- alert
+    // });
+  }
 }

@@ -3,6 +3,9 @@ import useBacklogViewModel from '../viewmodels/useBacklogViewModel';
 import useCategoryViewModel from '../viewmodels/useCategoryViewModel';
 import {IBacklog} from '../models/Backlog';
 import {ICategory} from '../models/Category';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../App';
 
 const initialBacklogFormState: IBacklog = {
   id: '',
@@ -20,11 +23,14 @@ const initialCategoryFormState: ICategory = {
 };
 
 const useNewBacklogViewController = () => {
+  const navigation: NativeStackNavigationProp<RootStackParamList, 'NewBacklog', undefined> =
+    useNavigation();
   const [backlogFormState, setBacklogFormState] = useState(initialBacklogFormState);
   const [categoryFormState, setCategoryFormState] = useState(initialCategoryFormState);
 
   const {createBacklog, creatingBacklog} = useBacklogViewModel();
-  const {categories, fetchCategories, fetchingCategories} = useCategoryViewModel();
+  const {createCategory, categories, fetchCategories, fetchingCategories, createCategorySuccess} =
+    useCategoryViewModel();
 
   useEffect(() => {
     fetchCategories();
@@ -49,12 +55,6 @@ const useNewBacklogViewController = () => {
     console.log(backlogFormState.name);
 
     const newBacklog: IBacklog = {
-      // id: '',
-      // name: initialBacklogFormState.name,
-      // category: initialBacklogFormState.category,
-      // buyOn: initialBacklogFormState.buyOn,
-      // price: Number(initialBacklogFormState.price),
-      // quantity: Number(initialBacklogFormState.quantity),
       id: backlogFormState.id,
       name: backlogFormState.name,
       category: backlogFormState.category,
@@ -65,12 +65,20 @@ const useNewBacklogViewController = () => {
 
     createBacklog(newBacklog);
 
-    // navigate
+    // navigate back
+    navigation.goBack();
   };
 
-  const onCategoryFormSubmit = (params: any) => {};
+  const onCategoryFormSubmit = (params: any) => {
+    const newCategory: ICategory = {
+      id: categoryFormState.id,
+      name: categoryFormState.name,
+      value: categoryFormState.value,
+    };
 
-  // const onChangeText = (fieldName: keyof BacklogFormState, text: string) => {
+    createCategory(newCategory);
+  };
+
   const onChangeText = (fieldName: keyof IBacklog, text: string) => {
     setBacklogFormState(prevState => ({
       ...prevState,

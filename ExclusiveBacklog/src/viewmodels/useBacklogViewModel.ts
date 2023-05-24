@@ -25,8 +25,7 @@ const useBacklogViewModel = () => {
     deleteBacklogError,
   }: BacklogStateType = useSelector((state: StoreType) => state.backlog);
 
-  const {createBacklog, updateBacklog, deleteBacklog, fetchBacklogs} =
-    BacklogAction;
+  const {createBacklog, updateBacklog, deleteBacklog, fetchBacklogs} = BacklogAction;
 
   // useEffect(() => {
   //   dispatch(fetchBacklogs());
@@ -39,8 +38,7 @@ const useBacklogViewModel = () => {
     backlogs,
     fetchBacklogs: () => dispatch(fetchBacklogs()),
 
-    createBacklog: (newBacklog: IBacklog) =>
-      dispatch(createBacklog(newBacklog)),
+    createBacklog: (newBacklog: IBacklog) => dispatch(createBacklog(newBacklog)),
     creatingBacklog,
     createBacklogSuccess,
     createBacklogError,

@@ -3,6 +3,7 @@ import {useEffect} from 'react';
 import {AppDispatch} from '../store/store';
 import {CategoryStateType, StoreType} from '../types/CategoryStateType';
 import {CategoryAction} from '../store/categorySlice';
+import {ICategory} from '../models/Category';
 
 const useCategoryViewModel = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -36,8 +37,7 @@ const useCategoryViewModel = () => {
     categories,
     fetchCategories: () => dispatch(fetchCategories()),
 
-    createCategory: (name: string, value: string) =>
-      dispatch(createCategory({name, value})),
+    createCategory: (newCategory: ICategory) => dispatch(createCategory(newCategory)),
     creatingCategory,
     createCategorySuccess,
     createCategoryError,
