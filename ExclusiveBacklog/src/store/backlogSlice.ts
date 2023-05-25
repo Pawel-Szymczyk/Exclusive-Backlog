@@ -20,7 +20,7 @@ const initialState: BacklogStateType = {
   fetchingBacklogById: false,
   fetchingBacklogByIdSuccess: false,
   fetchingBacklogByIdBacklogError: false,
-  backlogById: {id: '', buyOn: '', category: '', name: '', price: 0, quantity: 0},
+  backlogById: null,
 
   creatingBacklog: false,
   createBacklogSuccess: false,
@@ -108,6 +108,20 @@ export const backlogSlice = createSlice({
       .addCase(fetchBacklogs.rejected, state => {
         state.backlogs = [];
         state.fetchingBacklogs = false;
+      })
+
+      // -----------------------------------------------
+      // get backlog by id
+      .addCase(fetchBacklogById.pending, state => {
+        state.fetchingBacklogById = true;
+      })
+      .addCase(fetchBacklogById.fulfilled, (state, action) => {
+        state.backlogById = action.payload;
+        state.fetchingBacklogById = false;
+      })
+      .addCase(fetchBacklogById.rejected, state => {
+        state.backlogById = null;
+        state.fetchingBacklogById = false;
       });
   },
 });
@@ -120,6 +134,7 @@ const {
 
 export const BacklogAction = {
   fetchBacklogs,
+  fetchBacklogById,
   createBacklog,
   updateBacklog,
   deleteBacklog,

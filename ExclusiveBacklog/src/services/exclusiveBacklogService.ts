@@ -18,7 +18,7 @@ export default class exclusiveBacklogService {
       const data: IBacklogDTO[] = await response.json();
 
       // map data
-      const mappedBacklog: IBacklog[] = data.map(item => ({
+      const mappedBacklogs: IBacklog[] = data.map(item => ({
         id: item._id,
         name: item.name,
         buyOn: item.buyOn,
@@ -27,18 +27,33 @@ export default class exclusiveBacklogService {
         quantity: item.quantity,
       }));
 
-      return mappedBacklog;
+      return mappedBacklogs;
     } catch (error) {
       console.error('Error fetching data:', error);
       throw error;
     }
+  }
 
-    // return fetch(this.serviceURI + '/exclusive-backlogs').then(res => {
-    //   if (!res.ok) {
-    //     throw new Error('error');
-    //   }
-    //   return res.json();
-    // });
+  async getBacklogById(id: string): Promise<IBacklog> {
+    try {
+      const response = await fetch(this.serviceURI + '/exclusive-backlogs/' + id);
+      const data: IBacklogDTO = await response.json();
+
+      // map data
+      const mappedBacklog: IBacklog = {
+        id: data._id,
+        name: data.name,
+        buyOn: data.buyOn,
+        category: data.category,
+        price: data.price,
+        quantity: data.quantity,
+      };
+
+      return mappedBacklog;
+    } catch (error) {
+      console.error('Error fetch data by id:', error);
+      throw error;
+    }
   }
 
   createBacklog(data: IBacklog) {

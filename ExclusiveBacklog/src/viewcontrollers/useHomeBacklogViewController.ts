@@ -7,11 +7,8 @@ import {RootStackParamList} from '../../App';
 import {IBacklog} from '../models/Backlog';
 
 const useHomeBacklogViewController = () => {
-  const navigation: NativeStackNavigationProp<
-    RootStackParamList,
-    'HomeBacklogs',
-    undefined
-  > = useNavigation();
+  const navigation: NativeStackNavigationProp<RootStackParamList, 'HomeBacklogs', undefined> =
+    useNavigation();
 
   const {backlogs, fetchingBacklogs, fetchBacklogs} = useBacklogViewModel();
 
@@ -21,7 +18,7 @@ const useHomeBacklogViewController = () => {
 
   // const onPressBacklogItem = (backlog: BacklogType) => {
   const onPressBacklogItem = (backlog: IBacklog) => {
-    navigation.navigate('Backlog', {backlog});
+    navigation.navigate('Backlog', {name: backlog.name, id: backlog.id});
   };
 
   const onPressCreate = (): void => {

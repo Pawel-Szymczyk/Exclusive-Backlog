@@ -7,14 +7,10 @@ import ListComponent from '../components/ListComponent';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../App';
 
-type HomeBacklogsProps = NativeStackScreenProps<
-  RootStackParamList,
-  'HomeBacklogs'
->;
+type HomeBacklogsProps = NativeStackScreenProps<RootStackParamList, 'HomeBacklogs'>;
 
 const HomeBacklogsView = ({route, navigation}: HomeBacklogsProps) => {
-  const {backlogs, onPressBacklogItem, onPressCreate} =
-    useHomeBacklogViewController();
+  const {backlogs, onPressBacklogItem, onPressCreate} = useHomeBacklogViewController();
 
   return (
     <View style={styles.container}>

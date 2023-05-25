@@ -35,8 +35,8 @@ const createAccordionList = (items: IBacklog[]): AccordionItem[] => {
 
 interface ListComponentProps {
   title: string;
-  // onListItemPressEventHandler: (backlog: IBacklog) => void;
-  onListItemPressEventHandler: (id: string, name: string) => void;
+  onListItemPressEventHandler: (backlog: IBacklog) => void;
+  // onListItemPressEventHandler: (id: string, name: string) => void;
   listItems: IBacklog[];
 }
 
@@ -57,7 +57,8 @@ const ListComponent = (props: ListComponentProps) => {
               <List.Item
                 key={item.id}
                 title={item.name}
-                onPress={() => onListItemPressEventHandler(item.id, item.name)}
+                // onPress={() => onListItemPressEventHandler(item.id, item.name)}
+                onPress={() => onListItemPressEventHandler(item)}
               />
             ))}
           </List.Accordion>
