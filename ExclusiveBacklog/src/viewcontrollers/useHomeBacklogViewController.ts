@@ -39,6 +39,7 @@ const useHomeBacklogViewController = () => {
   };
 
   return {
+    status,
     backlogs,
     // fetchingBacklogs,
     onPressBacklogItem,

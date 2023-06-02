@@ -2,15 +2,16 @@ import {StatusBar} from 'expo-status-bar';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import useHomeBacklogViewController from '../viewcontrollers/useHomeBacklogViewController';
-import {FAB, IconButton} from 'react-native-paper';
+import {FAB, IconButton, Switch, Text} from 'react-native-paper';
 import ListComponent from '../components/ListComponent';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../App';
+import {Status} from '../types/BacklogStateType';
 
 type HomeBacklogsProps = NativeStackScreenProps<RootStackParamList, 'HomeBacklogs'>;
 
 const HomeBacklogsView = ({route, navigation}: HomeBacklogsProps) => {
-  const {backlogs, onPressBacklogItem, onPressCreate} = useHomeBacklogViewController();
+  const {status, backlogs, onPressBacklogItem, onPressCreate} = useHomeBacklogViewController();
 
   return (
     <View style={styles.container}>
@@ -21,14 +22,30 @@ const HomeBacklogsView = ({route, navigation}: HomeBacklogsProps) => {
           onPress={() => console.log('Pressed')}
         /> */}
       </View>
-      <View style={styles.contentContainer}>
-        <ListComponent
-          onListItemPressEventHandler={onPressBacklogItem}
-          listItems={backlogs}
-          title="Backlogs"
-        />
-        <FAB icon="plus" style={styles.fab} onPress={onPressCreate} />
-      </View>
+
+      {(() => {
+        switch (status) {
+          case Status.LOADING:
+            return (
+              <View style={styles.contentContainer}>
+                <Text>Loading...</Text>
+              </View>
+            );
+          case Status.SUCCEEDED:
+            return (
+              <View style={styles.contentContainer}>
+                <ListComponent
+                  onListItemPressEventHandler={onPressBacklogItem}
+                  listItems={backlogs}
+                  title="Backlogs"
+                />
+                <FAB icon="plus" style={styles.fab} onPress={onPressCreate} />
+              </View>
+            );
+          default:
+            return null;
+        }
+      })()}
     </View>
   );
 };
