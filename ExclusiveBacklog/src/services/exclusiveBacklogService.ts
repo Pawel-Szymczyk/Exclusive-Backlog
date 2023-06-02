@@ -27,6 +27,21 @@ export default class exclusiveBacklogService {
         quantity: item.quantity,
       }));
 
+      // // map data
+      // const mappedBacklogs: Backlog[] = data.map(
+      //   item =>
+      //     new Backlog(
+      //       item._id,
+      //       item.name,
+      //       item.category,
+      //       item.buyOn,
+      //       item.createdOn,
+      //       item.modifiedOn,
+      //       item.price,
+      //       item.quantity,
+      //     ),
+      // );
+
       return mappedBacklogs;
     } catch (error) {
       console.error('Error fetching data:', error);

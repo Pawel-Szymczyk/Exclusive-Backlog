@@ -1,12 +1,13 @@
 import {createAsyncThunk, createSlice, nanoid} from '@reduxjs/toolkit';
 import exclusiveBacklogService from '../services/exclusiveBacklogService';
-import {BacklogStateType} from '../types/BacklogStateType';
+import {BacklogStateType, Status} from '../types/BacklogStateType';
 import {IBacklog} from '../models/Backlog';
 
 const backlogService = new exclusiveBacklogService();
 
 const initialState: BacklogStateType = {
-  fetchingBacklogs: false,
+  status: Status.IDLE,
+  error: null,
   backlogs: [
     // {
     //   _id: nanoid(),
@@ -15,22 +16,23 @@ const initialState: BacklogStateType = {
     // },
   ],
 
-  fetchingBacklogById: false,
-  fetchingBacklogByIdSuccess: false,
-  fetchingBacklogByIdBacklogError: false,
-  backlogById: null,
+  // fetchingBacklogs: false,
+  // fetchingBacklogById: false,
+  // fetchingBacklogByIdSuccess: false,
+  // fetchingBacklogByIdBacklogError: false,
+  // backlogById: null,
 
-  creatingBacklog: false,
-  createBacklogSuccess: false,
-  createBacklogError: false,
+  // creatingBacklog: false,
+  // createBacklogSuccess: false,
+  // createBacklogError: false,
 
-  updatingBacklog: false,
-  updateBacklogSuccess: false,
-  updateBacklogError: false,
+  // updatingBacklog: false,
+  // updateBacklogSuccess: false,
+  // updateBacklogError: false,
 
-  deletingBacklog: false,
-  deleteBacklogSuccess: false,
-  deleteBacklogError: false,
+  // deletingBacklog: false,
+  // deleteBacklogSuccess: false,
+  // deleteBacklogError: false,
 };
 
 // -------------------------------------------------------
@@ -90,36 +92,36 @@ export const backlogSlice = createSlice({
       // -----------------------------------------------
       // create backlog
       .addCase(createBacklog.fulfilled, (state, action) => {
-        state.createBacklogSuccess = true;
+        state.status = Status.SUCCEEDED;
         state.backlogs.push(action.payload);
       })
 
       // -----------------------------------------------
       // get backlogs
       .addCase(fetchBacklogs.pending, state => {
-        state.fetchingBacklogs = true;
+        state.status = Status.LOADING;
       })
       .addCase(fetchBacklogs.fulfilled, (state, action) => {
         state.backlogs = action.payload;
-        state.fetchingBacklogs = false;
+        state.status = Status.SUCCEEDED;
       })
       .addCase(fetchBacklogs.rejected, state => {
         state.backlogs = [];
-        state.fetchingBacklogs = false;
+        state.status = Status.FAILED;
       })
 
       // -----------------------------------------------
       // get backlog by id
       .addCase(fetchBacklogById.pending, state => {
-        state.fetchingBacklogById = true;
+        state.status = Status.LOADING;
       })
       .addCase(fetchBacklogById.fulfilled, (state, action) => {
-        state.backlogById = action.payload;
-        state.fetchingBacklogById = false;
+        // state.backlogById = action.payload;
+        state.status = Status.SUCCEEDED;
       })
       .addCase(fetchBacklogById.rejected, state => {
-        state.backlogById = null;
-        state.fetchingBacklogById = false;
+        // state.backlogById = null;
+        state.status = Status.FAILED;
       });
   },
 });
