@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {ScrollView} from 'react-native';
 import {Button, DataTable} from 'react-native-paper';
-import {IBacklog} from '../models/Backlog';
+import {IBacklog} from '../features/backlog/Backlog';
 // import {BacklogType} from '../types/BacklogType';
 
 const numberOfItemsPerPageList = [2, 3, 4];
@@ -30,9 +30,7 @@ const TableComponent = (props: TableComponentProps) => {
   const {onPressEventHandler, items} = props;
 
   const [page, setPage] = React.useState<number>(0);
-  const [numberOfItemsPerPage, onItemsPerPageChange] = React.useState(
-    numberOfItemsPerPageList[0],
-  );
+  const [numberOfItemsPerPage, onItemsPerPageChange] = React.useState(numberOfItemsPerPageList[0]);
   //   const from = page * numberOfItemsPerPage;
   //   const to = Math.min((page + 1) * numberOfItemsPerPage, items.length);
 

@@ -1,11 +1,18 @@
 import {useCallback, useEffect, useState} from 'react';
-import useBacklogViewModel from '../viewmodels/useBacklogViewModel';
+// import useBacklogViewModel from '../viewmodels/useBacklogViewModel';
 import useCategoryViewModel from '../viewmodels/useCategoryViewModel';
-import {IBacklog} from '../models/Backlog';
-import {ICategory} from '../models/Category';
+import {IBacklog} from '../features/backlog/Backlog';
+import {ICategory} from '../features/category/Category';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../App';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch} from '../app/store';
+import {BacklogStateType, StoreType} from '../features/backlog/BacklogStateType';
+import {CategoryStateType, CategoryStoreType} from '../features/category/CategoryStateType';
+import {BacklogAction} from '../features/backlog/backlogSlice';
+import {CategoryAction} from '../features/category/categorySlice';
+import {Status} from '../types/Status';
 
 const initialBacklogFormState: IBacklog = {
   id: '',
@@ -25,16 +32,28 @@ const initialCategoryFormState: ICategory = {
 const useNewBacklogViewController = () => {
   const navigation: NativeStackNavigationProp<RootStackParamList, 'NewBacklog', undefined> =
     useNavigation();
+
+  const dispatch = useDispatch<AppDispatch>();
+  const {status, error}: BacklogStateType = useSelector((state: StoreType) => state.backlog);
+  const {categoryStatus, categories, categoryError}: CategoryStateType = useSelector(
+    (state: CategoryStoreType) => state.category,
+  );
+
   const [backlogFormState, setBacklogFormState] = useState(initialBacklogFormState);
   const [categoryFormState, setCategoryFormState] = useState(initialCategoryFormState);
 
-  const {createBacklog, creatingBacklog} = useBacklogViewModel();
-  const {createCategory, categories, fetchCategories, fetchingCategories, createCategorySuccess} =
-    useCategoryViewModel();
+  const {createBacklog, resetStatus} = BacklogAction;
+  const {createCategory, fetchCategories, resetCategoryStatus} = CategoryAction;
+
+  // const {createBacklog, creatingBacklog} = useBacklogViewModel();
+  // const {createCategory, categories, fetchCategories, fetchingCategories, createCategorySuccess} =
+  //   useCategoryViewModel();
 
   useEffect(() => {
-    fetchCategories();
-  }, []);
+    if (categoryStatus === Status.IDLE) {
+      dispatch(fetchCategories());
+    }
+  }, [categoryStatus, dispatch]);
 
   useEffect(() => {
     // Perform any necessary actions when the state changes
@@ -63,7 +82,9 @@ const useNewBacklogViewController = () => {
       quantity: Number(backlogFormState.quantity),
     };
 
-    createBacklog(newBacklog);
+    dispatch(createBacklog(newBacklog));
+    dispatch(resetStatus());
+    // createBacklog(newBacklog);
 
     // navigate back
     navigation.goBack();
@@ -76,7 +97,7 @@ const useNewBacklogViewController = () => {
       value: categoryFormState.value,
     };
 
-    createCategory(newCategory);
+    dispatch(createCategory(newCategory));
   };
 
   const onChangeText = (fieldName: keyof IBacklog, text: string) => {
@@ -97,8 +118,6 @@ const useNewBacklogViewController = () => {
     backlogFormState,
     categoryFormState,
     categories,
-    fetchingCategories,
-    creatingBacklog,
     onChangeText,
     onChangeCategoryText,
     onFormSubmit,

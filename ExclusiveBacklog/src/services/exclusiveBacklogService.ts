@@ -1,4 +1,4 @@
-import {IBacklog, IBacklogDTO} from '../models/Backlog';
+import {IBacklog, IBacklogDTO} from '../features/backlog/Backlog';
 
 export default class exclusiveBacklogService {
   serviceURI: string = 'http://192.168.1.172:3000';

@@ -1,4 +1,4 @@
-import {ICategory, ICategoryTDO} from '../models/Category';
+import {ICategory, ICategoryTDO} from '../features/category/Category';
 
 export default class exclusiveBacklogCategoryService {
   serviceURI: string = 'http://192.168.1.172:3000';

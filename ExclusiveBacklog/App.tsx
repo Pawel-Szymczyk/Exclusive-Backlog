@@ -2,14 +2,14 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Provider} from 'react-redux';
-import store from './src/store/store';
+import store from './src/app/store';
 import {Provider as PaperProvider} from 'react-native-paper';
 import HomeBacklogsView from './src/views/HomeView';
 import NewBacklogView from './src/views/NewBacklogView';
 import BacklogView from './src/views/BacklogView';
 // import {BacklogType} from './src/types/BacklogType';
 import {enGB, registerTranslation} from 'react-native-paper-dates';
-import {IBacklog} from './src/models/Backlog';
+import {IBacklog} from './src/features/backlog/Backlog';
 
 registerTranslation('en-GB', enGB);
 

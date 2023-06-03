@@ -1,9 +1,9 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect} from 'react';
-import {AppDispatch} from '../store/store';
-import {CategoryStateType, StoreType} from '../types/CategoryStateType';
-import {CategoryAction} from '../store/categorySlice';
-import {ICategory} from '../models/Category';
+import {AppDispatch} from '../app/store';
+import {CategoryStateType, StoreType} from '../features/category/CategoryStateType';
+import {CategoryAction} from '../features/category/categorySlice';
+import {ICategory} from '../features/category/Category';
 
 const useCategoryViewModel = () => {
   const dispatch = useDispatch<AppDispatch>();

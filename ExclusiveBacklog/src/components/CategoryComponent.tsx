@@ -4,7 +4,7 @@ import {Button, Dialog} from 'react-native-paper';
 import SelectDropdown from 'react-native-select-dropdown';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 // import {CategoryType} from '../types/CategoryType';
-import {ICategory} from '../models/Category';
+import {ICategory} from '../features/category/Category';
 
 interface CategoryComponentProps {
   onCategoryChange: (value: ICategory) => void;
@@ -34,11 +34,7 @@ const CategoryComponent = (props: CategoryComponentProps) => {
         // buttonTextStyle={styles.dropdown4BtnTxtStyle}
         renderDropdownIcon={isOpened => {
           return (
-            <FontAwesome
-              name={isOpened ? 'chevron-up' : 'chevron-down'}
-              color={'#444'}
-              size={18}
-            />
+            <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />
           );
         }}
         dropdownIconPosition={'right'}
@@ -47,11 +43,7 @@ const CategoryComponent = (props: CategoryComponentProps) => {
         // rowTextStyle={styles.dropdown4RowTxtStyle}
       />
 
-      <Button
-        icon="folder"
-        mode="contained"
-        onPress={onNewCategoryPress}
-        style={styles.formButton}>
+      <Button icon="folder" mode="contained" onPress={onNewCategoryPress} style={styles.formButton}>
         Add Cat...
       </Button>
     </View>

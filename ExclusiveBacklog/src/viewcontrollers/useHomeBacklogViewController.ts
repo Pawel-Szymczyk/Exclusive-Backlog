@@ -1,14 +1,13 @@
 import {useEffect} from 'react';
-// import {BacklogType} from '../types/BacklogType';
-// import useBacklogViewModel from '../viewmodels/useBacklogViewModel';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../App';
-import {IBacklog} from '../models/Backlog';
-import {AppDispatch} from '../store/store';
+import {IBacklog} from '../features/backlog/Backlog';
+import {AppDispatch} from '../app/store';
 import {useDispatch, useSelector} from 'react-redux';
-import {BacklogStateType, Status, StoreType} from '../types/BacklogStateType';
-import {BacklogAction} from '../store/backlogSlice';
+import {BacklogStateType, StoreType} from '../features/backlog/BacklogStateType';
+import {BacklogAction} from '../features/backlog/backlogSlice';
+import {Status} from '../types/Status';
 
 const useHomeBacklogViewController = () => {
   const navigation: NativeStackNavigationProp<RootStackParamList, 'HomeBacklogs', undefined> =
@@ -18,19 +17,17 @@ const useHomeBacklogViewController = () => {
 
   const {status, backlogs}: BacklogStateType = useSelector((state: StoreType) => state.backlog);
 
-  const {fetchBacklogs} = BacklogAction;
-
-  // const {backlogs, fetchingBacklogs, fetchBacklogs} = useBacklogViewModel();
+  const {resetStatus, fetchBacklogs} = BacklogAction;
 
   useEffect(() => {
-    // fetchBacklogs();
     if (status === Status.IDLE) {
       dispatch(fetchBacklogs());
     }
   }, [status, dispatch]);
 
-  // const onPressBacklogItem = (backlog: BacklogType) => {
   const onPressBacklogItem = (backlog: IBacklog) => {
+    dispatch(resetStatus());
+
     navigation.navigate('Backlog', {name: backlog.name, id: backlog.id});
   };
 
@@ -41,7 +38,6 @@ const useHomeBacklogViewController = () => {
   return {
     status,
     backlogs,
-    // fetchingBacklogs,
     onPressBacklogItem,
     onPressCreate,
   };

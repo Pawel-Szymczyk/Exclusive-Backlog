@@ -7,9 +7,10 @@ import useBacklogViewController from '../viewcontrollers/useBacklogViewControlle
 type BacklogProps = NativeStackScreenProps<RootStackParamList, 'Backlog'>;
 
 const BacklogView = ({route, navigation}: BacklogProps) => {
-  const {backlogById, fetchBacklogById} = useBacklogViewController();
+  // const {backlogById, fetchBacklogById} = useBacklogViewController();
+  const {status, backlog} = useBacklogViewController();
 
-  const [backlog, setBacklog] = useState(null);
+  // const [backlog, setBacklog] = useState(null);
 
   React.useEffect(() => {
     navigation.setOptions({
@@ -19,9 +20,9 @@ const BacklogView = ({route, navigation}: BacklogProps) => {
 
   return (
     <View style={styles.container}>
-      <Text>{route.name}</Text>
-      <Text>{backlogById?.price}</Text>
-      <Text>{backlogById?.category['name']}</Text>
+      <Text>{backlog?.name}</Text>
+      <Text>{backlog?.price}</Text>
+      <Text>{backlog?.category['name']}</Text>
     </View>
   );
 };

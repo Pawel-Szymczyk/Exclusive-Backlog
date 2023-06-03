@@ -6,7 +6,7 @@ import {RootStackParamList} from '../../App';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import DatePickerComponent from '../components/DatePickerComponent';
 import CategoryComponent from '../components/CategoryComponent';
-import {ICategory} from '../models/Category';
+import {ICategory} from '../features/category/Category';
 
 type NewBacklogProps = NativeStackScreenProps<RootStackParamList, 'NewBacklog'>;
 
@@ -14,13 +14,11 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
   const {
     backlogFormState,
     categoryFormState,
-    creatingBacklog,
+    categories,
     onChangeText,
     onChangeCategoryText,
     onFormSubmit,
     onCategoryFormSubmit,
-    categories,
-    fetchingCategories,
   } = useNewBacklogViewController();
 
   const [visible, setVisible] = React.useState(false);
@@ -39,7 +37,10 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
   React.useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Button icon="content-save" mode="text" onPress={onFormSubmit} disabled={creatingBacklog}>
+        // <Button icon="content-save" mode="text" onPress={onFormSubmit} disabled={creatingBacklog}>
+        //   Save
+        // </Button>
+        <Button icon="content-save" mode="text" onPress={onFormSubmit}>
           Save
         </Button>
       ),

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {List} from 'react-native-paper';
 import {ScrollView} from 'react-native';
-import {IBacklog} from '../models/Backlog';
+import {IBacklog} from '../features/backlog/Backlog';
 
 // Helping methods ---------------------------------------------------------
 
