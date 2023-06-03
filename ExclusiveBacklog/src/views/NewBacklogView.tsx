@@ -1,12 +1,13 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Button, Dialog, TextInput} from 'react-native-paper';
+import {Button, Dialog, TextInput, Modal} from 'react-native-paper';
 import useNewBacklogViewController from '../viewcontrollers/useNewBacklogViewController';
 import {RootStackParamList} from '../../App';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import DatePickerComponent from '../components/DatePickerComponent';
 import CategoryComponent from '../components/CategoryComponent';
 import {ICategory} from '../features/category/Category';
+import CameraComponent from '../components/CameraComponent';
 
 type NewBacklogProps = NativeStackScreenProps<RootStackParamList, 'NewBacklog'>;
 
@@ -22,6 +23,8 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
   } = useNewBacklogViewController();
 
   const [visible, setVisible] = React.useState(false);
+
+  const [camera, setShowCamera] = React.useState(false);
 
   const showDialog = () => setVisible(true);
 
@@ -57,6 +60,13 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
 
   const handleOnNewCategoryPress = () => {
     setVisible(true);
+  };
+
+  const handleTakeImage = () => {
+    setShowCamera(true);
+  };
+  const hideModal = () => {
+    setShowCamera(false);
   };
 
   return (
@@ -102,6 +112,9 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
           style={styles.formButton}>
           Generate QR Code
         </Button>
+        <Button icon="camera" mode="contained" onPress={handleTakeImage} style={styles.formButton}>
+          Take Image
+        </Button>
       </View>
 
       <Dialog visible={visible} onDismiss={hideDialog}>
@@ -131,6 +144,13 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
           </Button>
         </Dialog.Actions>
       </Dialog>
+
+      {/* <Modal visible={isCameraVisible} onDismiss={hideModal}>
+        <CameraComponent />
+      </Modal> */}
+      {camera && (
+        <CameraComponent showModal={camera} setModalVisible={() => setShowCamera(false)} />
+      )}
     </View>
   );
 };
@@ -138,8 +158,8 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 30,
-    paddingBottom: 30,
+    paddingTop: 15,
+    paddingBottom: 5,
     paddingLeft: 30,
     paddingRight: 30,
     backgroundColor: '#FFF',
@@ -155,6 +175,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingTop: 4,
     paddingBottom: 5,
+    marginBottom: 15,
 
     // alignSelf: 'flex-end',
     // width: 130,

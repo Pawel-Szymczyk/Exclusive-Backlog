@@ -24,7 +24,10 @@
     "react-native-screens": "~3.20.0",
     "react-native-select-dropdown": "^3.3.3",
     "react-native-vector-icons": "^9.2.0",
-    "react-redux": "^8.0.5"
+    "react-redux": "^8.0.5",
+    "expo-camera": "~13.2.1",
+    "expo-sharing": "~11.2.2",
+    "expo-media-library": "~15.2.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
