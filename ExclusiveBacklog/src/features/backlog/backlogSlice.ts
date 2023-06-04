@@ -9,6 +9,7 @@ const backlogService = new exclusiveBacklogService();
 const initialState: BacklogStateType = {
   status: Status.IDLE,
   error: null,
+  message: '',
   backlog: null,
   backlogs: [
     // {
@@ -57,6 +58,13 @@ export const createBacklog = createAsyncThunk(
   },
 );
 
+export const deleteBacklogById = createAsyncThunk(
+  'backlogs/deleteBacklogById',
+  async (id: string) => {
+    return backlogService.deleteBacklogAsync(id);
+  },
+);
+
 export const backlogSlice = createSlice({
   name: 'backlogs',
   initialState,
@@ -86,11 +94,11 @@ export const backlogSlice = createSlice({
       });
       state.backlogs.concat([action.payload]);
     },
-    deleteBacklog: (state, action: {payload: {id: string}; type: string}) => {
-      state.backlogs = state.backlogs.filter(
-        (backlogItem: IBacklog) => backlogItem.id !== action.payload.id,
-      );
-    },
+    // deleteBacklog: (state, action: {payload: {id: string}; type: string}) => {
+    //   state.backlogs = state.backlogs.filter(
+    //     (backlogItem: IBacklog) => backlogItem.id !== action.payload.id,
+    //   );
+    // },
   },
   extraReducers(builder) {
     builder
@@ -129,6 +137,19 @@ export const backlogSlice = createSlice({
       })
       .addCase(fetchBacklogById.rejected, state => {
         state.status = Status.FAILED;
+      })
+
+      // -----------------------------------------------
+      // delete backlog by id
+      .addCase(deleteBacklogById.pending, state => {
+        state.status = Status.LOADING;
+      })
+      .addCase(deleteBacklogById.fulfilled, (state, action) => {
+        state.message = action.payload;
+        state.status = Status.SUCCEEDED;
+      })
+      .addCase(deleteBacklogById.rejected, state => {
+        state.status = Status.FAILED;
       });
   },
 });
@@ -145,6 +166,7 @@ export const BacklogAction = {
   createBacklog,
   fetchBacklogs,
   fetchBacklogById,
+  deleteBacklogById,
   // updateBacklog,
   // deleteBacklog,
 };

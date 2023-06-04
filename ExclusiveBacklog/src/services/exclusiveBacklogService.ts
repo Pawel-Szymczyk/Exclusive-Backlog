@@ -1,4 +1,4 @@
-import {IBacklog, IBacklogDTO} from '../features/backlog/Backlog';
+import {IBacklog, IBacklogDTO, IBacklogResponseDTO} from '../features/backlog/Backlog';
 
 export default class exclusiveBacklogService {
   serviceURI: string = 'http://192.168.1.172:3000';
@@ -65,6 +65,23 @@ export default class exclusiveBacklogService {
       };
 
       return mappedBacklog;
+    } catch (error) {
+      console.error('Error fetch data by id:', error);
+      throw error;
+    }
+  }
+
+  async deleteBacklogAsync(id: string): Promise<string> {
+    try {
+      const response = await fetch(this.serviceURI + '/exclusive-backlogs/' + id, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data: IBacklogResponseDTO = await response.json();
+
+      return data.message;
     } catch (error) {
       console.error('Error fetch data by id:', error);
       throw error;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Button, Dialog, TextInput, Modal} from 'react-native-paper';
 import useNewBacklogViewController from '../viewcontrollers/useNewBacklogViewController';
@@ -6,102 +6,119 @@ import {RootStackParamList} from '../../App';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import DatePickerComponent from '../components/DatePickerComponent';
 import CategoryComponent from '../components/CategoryComponent';
-import {ICategory} from '../features/category/Category';
 import CameraComponent from '../components/CameraComponent';
+import {IBacklog} from '../features/backlog/Backlog';
+import {ICategory} from '../features/category/Category';
 
 type NewBacklogProps = NativeStackScreenProps<RootStackParamList, 'NewBacklog'>;
 
 const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
-  const {
-    backlogFormState,
-    categoryFormState,
-    categories,
-    onChangeText,
-    onChangeCategoryText,
-    onFormSubmit,
-    onCategoryFormSubmit,
-  } = useNewBacklogViewController();
+  // -----------------------------------------------------------------------------------
+  // Controllers
+
+  const {categories, onCategoryFormSubmit, onFormSubmit} = useNewBacklogViewController();
+
+  // -----------------------------------------------------------------------------------
+  // React States
+
+  const [backlog, setBacklog] = useState<IBacklog>({
+    id: '',
+    name: '',
+    price: 0,
+    quantity: 1,
+    category: '',
+    buyOn: '',
+  });
+  const [category, setCategory] = useState<ICategory>({
+    id: '',
+    name: '',
+    value: '',
+  });
 
   const [visible, setVisible] = React.useState(false);
-
   const [camera, setShowCamera] = React.useState(false);
 
-  const showDialog = () => setVisible(true);
+  // -----------------------------------------------------------------------------------
+  // React Hooks
 
-  const hideDialog = () => {
-    setVisible(false);
-  };
-
-  const onSaveNewCategoryButtonClick = (params: any) => {
-    onCategoryFormSubmit(params);
-    setVisible(false);
-  };
-
-  React.useEffect(() => {
+  useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        // <Button icon="content-save" mode="text" onPress={onFormSubmit} disabled={creatingBacklog}>
-        //   Save
-        // </Button>
-        <Button icon="content-save" mode="text" onPress={onFormSubmit}>
+        <Button icon="content-save" mode="text" onPress={() => onFormSubmit(backlog)}>
           Save
         </Button>
       ),
     });
-  }, [navigation]);
+  }, [backlog, category, navigation]);
 
-  const handleBuyOnChange = (newBuyOn: string) => {
-    onChangeText('buyOn', newBuyOn);
+  // -----------------------------------------------------------------------------------
+  // Event Handlers
+
+  // save new category handler
+  const onCategorySave = (newCategory: ICategory) => {
+    onCategoryFormSubmit(newCategory);
+    setVisible(false);
   };
 
-  const handleCategoryChange = (category: ICategory) => {
-    onChangeText('category', category.id);
+  // update backlog state field value with input value
+  const onInputChange = (fieldName: keyof IBacklog, text: string) => {
+    setBacklog(prevState => ({
+      ...prevState,
+      [fieldName]: text,
+    }));
   };
 
-  const handleOnNewCategoryPress = () => {
-    setVisible(true);
+  // update category state field value with category value
+  const onCategoryChange = (fieldName: keyof ICategory, text: string) => {
+    setCategory(prevState => ({
+      ...prevState,
+      [fieldName]: text,
+    }));
   };
 
   const handleTakeImage = () => {
     setShowCamera(true);
   };
-  const hideModal = () => {
-    setShowCamera(false);
+
+  const hideDialog = () => {
+    setVisible(false);
   };
+
+  // -----------------------------------------------------------------------------------
+  // View
 
   return (
     <View style={styles.container}>
       <View style={styles.form}>
         <TextInput
           label="Name"
-          value={backlogFormState.name}
-          onChangeText={(text: string) => onChangeText('name', text)}
+          value={backlog.name}
+          onChangeText={text => onInputChange('name', text)}
           mode="outlined"
           style={styles.formInput}
         />
         <TextInput
           label="Price"
           keyboardType="numeric"
-          value={backlogFormState.price.toString()}
-          onChangeText={(text: string) => onChangeText('price', text)}
+          value={backlog.price.toString()}
+          onChangeText={text => onInputChange('price', text)}
           mode="outlined"
           style={styles.formInput}
         />
         <TextInput
           label="Quantity"
           keyboardType="numeric"
-          value={backlogFormState.quantity.toString()}
-          onChangeText={(text: string) => onChangeText('quantity', text)}
+          value={backlog.quantity.toString()}
+          onChangeText={text => onInputChange('quantity', text)}
           mode="outlined"
           style={styles.formInput}
         />
-
-        <DatePickerComponent onBuyOnChange={handleBuyOnChange} />
+        <DatePickerComponent onBuyOnChange={date => onInputChange('buyOn', date)} />
 
         <CategoryComponent
-          onCategoryChange={handleCategoryChange}
+          onCategoryChange={category => onInputChange('category', category.id)}
           categories={categories}
-          onNewCategoryPress={handleOnNewCategoryPress}
+          onNewCategoryPress={() => setVisible(true)}
         />
       </View>
       <View>
@@ -122,15 +139,8 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
         <Dialog.Content>
           <TextInput
             label="Name"
-            value={categoryFormState.name}
-            onChangeText={(text: string) => onChangeCategoryText('name', text)}
-            mode="outlined"
-            style={styles.formInput}
-          />
-          <TextInput
-            label="Value"
-            value={categoryFormState.value}
-            onChangeText={(text: string) => onChangeCategoryText('value', text)}
+            value={category.name}
+            onChangeText={(text: string) => onCategoryChange('name', text)}
             mode="outlined"
             style={styles.formInput}
           />
@@ -139,7 +149,7 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
           <Button icon="close" mode="text" onPress={hideDialog}>
             Cancel
           </Button>
-          <Button icon="content-save" mode="text" onPress={onSaveNewCategoryButtonClick}>
+          <Button icon="content-save" mode="text" onPress={() => onCategorySave(category)}>
             Save
           </Button>
         </Dialog.Actions>

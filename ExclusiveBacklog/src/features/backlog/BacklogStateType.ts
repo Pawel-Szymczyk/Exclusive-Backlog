@@ -5,6 +5,7 @@ import {Status} from '../../types/Status';
 export type BacklogStateType = {
   status: Status;
   error: String | null;
+  message: String;
   backlog: IBacklog | null;
   backlogs: Array<IBacklog>;
 

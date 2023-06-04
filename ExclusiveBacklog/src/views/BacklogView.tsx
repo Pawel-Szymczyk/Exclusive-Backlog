@@ -1,5 +1,5 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Image, View, TouchableOpacity, FlatList, ScrollView} from 'react-native';
 import {RootStackParamList} from '../../App';
 import useBacklogViewController from '../viewcontrollers/useBacklogViewController';
@@ -11,11 +11,12 @@ type BacklogProps = NativeStackScreenProps<RootStackParamList, 'Backlog'>;
 const BacklogView = ({route, navigation}: BacklogProps) => {
   // -------------------------------------------------------------------
   // controllers
-  const {status, backlog} = useBacklogViewController();
+  const {status, backlog, deleteDialogVisible, setDeleteDialogVisible, onAcceptDeleteClick} =
+    useBacklogViewController();
 
   // -------------------------------------------------------------------
   // states
-  const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
+  // const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
 
   // -------------------------------------------------------------------
   // actions (TODO: move to controller)
@@ -27,9 +28,9 @@ const BacklogView = ({route, navigation}: BacklogProps) => {
     setDeleteDialogVisible(false);
   };
 
-  const onAcceptDeleteClick = () => {
-    setDeleteDialogVisible(false);
-  };
+  // const onAcceptDeleteClick = () => {
+  //   setDeleteDialogVisible(false);
+  // };
 
   // -------------------------------------------------------------------
   // effects

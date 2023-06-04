@@ -1,4 +1,3 @@
-import {forwardRef} from 'react';
 import {StyleSheet} from 'react-native';
 import {Dialog, Text, Button} from 'react-native-paper';
 
@@ -31,4 +30,4 @@ const DialogComponent = (props: DialogComponentProps) => {
 
 const style = StyleSheet.create({});
 
-export default forwardRef(DialogComponent);
+export default DialogComponent;

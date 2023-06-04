@@ -22,3 +22,8 @@ export interface IBacklog {
   // createdOn: string;
   // modifiedOn: string;
 }
+
+export interface IBacklogResponseDTO {
+  code: number;
+  message: string;
+}
