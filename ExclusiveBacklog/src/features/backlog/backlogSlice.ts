@@ -40,13 +40,13 @@ const initialState: BacklogStateType = {
 // -------------------------------------------------------
 // services
 export const fetchBacklogs = createAsyncThunk('backlogs/fetchBacklogs', async () => {
-  return backlogService.getAllBacklogs();
+  return backlogService.getAllBacklogsAsync();
 });
 
 export const fetchBacklogById = createAsyncThunk(
   'backlogs/fetchBacklogById',
   async (id: string) => {
-    return backlogService.getBacklogById(id);
+    return backlogService.getBacklogByIdAsync(id);
   },
 );
 

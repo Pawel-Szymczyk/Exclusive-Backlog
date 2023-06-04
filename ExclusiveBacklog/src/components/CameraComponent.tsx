@@ -76,7 +76,7 @@ const CameraComponent = (props: CameraComponentProps) => {
                   if (cameraRef) {
                     let photo = await cameraRef.takePictureAsync();
                     // setImage(photo);
-                    setModalVisible();
+                    // setModalVisible();
                   }
                 }}>
                 <View

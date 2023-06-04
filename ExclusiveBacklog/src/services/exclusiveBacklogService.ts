@@ -12,7 +12,7 @@ export default class exclusiveBacklogService {
   //   });
   // }
 
-  async getAllBacklogs(): Promise<IBacklog[]> {
+  async getAllBacklogsAsync(): Promise<IBacklog[]> {
     try {
       const response = await fetch(this.serviceURI + '/exclusive-backlogs');
       const data: IBacklogDTO[] = await response.json();
@@ -49,7 +49,7 @@ export default class exclusiveBacklogService {
     }
   }
 
-  async getBacklogById(id: string): Promise<IBacklog> {
+  async getBacklogByIdAsync(id: string): Promise<IBacklog> {
     try {
       const response = await fetch(this.serviceURI + '/exclusive-backlogs/' + id);
       const data: IBacklogDTO = await response.json();
@@ -71,6 +71,7 @@ export default class exclusiveBacklogService {
     }
   }
 
+  // TODO: make it async
   createBacklog(data: IBacklog) {
     return fetch(this.serviceURI + '/exclusive-backlogs', {
       method: 'POST',
