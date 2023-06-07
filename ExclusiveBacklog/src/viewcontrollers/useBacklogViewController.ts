@@ -40,12 +40,24 @@ const useBacklogViewController = () => {
     }
   };
 
+  const onUpdateBacklogClick = (backlogId: string | undefined) => {
+    if (backlogId !== undefined) {
+      // redirect
+      dispatch(resetStatus());
+
+      navigation.navigate('UpdateBacklog', {id: backlogId});
+    } else {
+      // TODO: return message that sth went wrong ?
+    }
+  };
+
   return {
     status,
     backlog,
     deleteDialogVisible,
     setDeleteDialogVisible,
     onAcceptDeleteClick,
+    onUpdateBacklogClick,
   };
 };
 

@@ -11,12 +11,16 @@ import BacklogView from './src/views/BacklogView';
 import {enGB, registerTranslation} from 'react-native-paper-dates';
 import {IBacklog} from './src/features/backlog/Backlog';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import UpdateBacklogView from './src/views/UpdateBacklogView';
 
 registerTranslation('en-GB', enGB);
 
 export type RootStackParamList = {
   HomeBacklogs: undefined;
   NewBacklog: undefined;
+  UpdateBacklog: {
+    id: string;
+  };
   Backlog: {
     // backlog: IBacklog;
     name: string;
@@ -43,6 +47,11 @@ export default class App extends React.Component {
                   name="NewBacklog"
                   component={NewBacklogView}
                   options={{title: 'New Backlog'}}
+                />
+                <Stack.Screen
+                  name="UpdateBacklog"
+                  component={UpdateBacklogView}
+                  options={{title: 'Update Backlog'}}
                 />
                 <Stack.Screen name="Backlog" component={BacklogView} />
               </Stack.Navigator>

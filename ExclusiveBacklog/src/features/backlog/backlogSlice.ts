@@ -18,24 +18,6 @@ const initialState: BacklogStateType = {
     //   category: 'test 1',
     // },
   ],
-
-  // fetchingBacklogs: false,
-  // fetchingBacklogById: false,
-  // fetchingBacklogByIdSuccess: false,
-  // fetchingBacklogByIdBacklogError: false,
-  // backlogById: null,
-
-  // creatingBacklog: false,
-  // createBacklogSuccess: false,
-  // createBacklogError: false,
-
-  // updatingBacklog: false,
-  // updateBacklogSuccess: false,
-  // updateBacklogError: false,
-
-  // deletingBacklog: false,
-  // deleteBacklogSuccess: false,
-  // deleteBacklogError: false,
 };
 
 // -------------------------------------------------------
@@ -65,6 +47,13 @@ export const deleteBacklogById = createAsyncThunk(
   },
 );
 
+export const updateBacklog = createAsyncThunk(
+  'backlogs/updateBacklog',
+  async (backlog: IBacklog) => {
+    return backlogService.updateBacklogAsync(backlog.id, backlog);
+  },
+);
+
 export const backlogSlice = createSlice({
   name: 'backlogs',
   initialState,
@@ -84,16 +73,16 @@ export const backlogSlice = createSlice({
     //     },
     //   ]);
     // },
-    updateBacklog: (state, action: {payload: IBacklog; type: string}) => {
-      state.backlogs = state.backlogs.map((backlogItem: IBacklog) => {
-        if (backlogItem.id === action.payload.id) {
-          backlogItem.name = action.payload.name;
-          return backlogItem;
-        }
-        return backlogItem;
-      });
-      state.backlogs.concat([action.payload]);
-    },
+    // updateBacklog: (state, action: {payload: IBacklog; type: string}) => {
+    //   state.backlogs = state.backlogs.map((backlogItem: IBacklog) => {
+    //     if (backlogItem.id === action.payload.id) {
+    //       backlogItem.name = action.payload.name;
+    //       return backlogItem;
+    //     }
+    //     return backlogItem;
+    //   });
+    //   state.backlogs.concat([action.payload]);
+    // },
     // deleteBacklog: (state, action: {payload: {id: string}; type: string}) => {
     //   state.backlogs = state.backlogs.filter(
     //     (backlogItem: IBacklog) => backlogItem.id !== action.payload.id,
@@ -150,6 +139,19 @@ export const backlogSlice = createSlice({
       })
       .addCase(deleteBacklogById.rejected, state => {
         state.status = Status.FAILED;
+      })
+
+      // -----------------------------------------------
+      // update backlog
+      .addCase(updateBacklog.pending, state => {
+        state.status = Status.LOADING;
+      })
+      .addCase(updateBacklog.fulfilled, (state, action) => {
+        state.backlog = action.payload;
+        state.status = Status.SUCCEEDED;
+      })
+      .addCase(updateBacklog.rejected, state => {
+        state.status = Status.FAILED;
       });
   },
 });
@@ -167,7 +169,7 @@ export const BacklogAction = {
   fetchBacklogs,
   fetchBacklogById,
   deleteBacklogById,
-  // updateBacklog,
+  updateBacklog,
   // deleteBacklog,
 };
 

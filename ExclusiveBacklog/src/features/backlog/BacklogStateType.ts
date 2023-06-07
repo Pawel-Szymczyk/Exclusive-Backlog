@@ -1,6 +1,5 @@
 import {IBacklog} from './Backlog';
 import {Status} from '../../types/Status';
-// import {BacklogType} from './BacklogType';
 
 export type BacklogStateType = {
   status: Status;
@@ -8,26 +7,6 @@ export type BacklogStateType = {
   message: String;
   backlog: IBacklog | null;
   backlogs: Array<IBacklog>;
-
-  // fetchingBacklogs: boolean;
-  // backlogs: Array<BacklogType>;
-
-  // fetchingBacklogById: boolean;
-  // fetchingBacklogByIdSuccess: boolean;
-  // fetchingBacklogByIdBacklogError: boolean;
-  // backlogById: IBacklog | null;
-
-  // creatingBacklog: boolean;
-  // createBacklogSuccess: boolean;
-  // createBacklogError: boolean;
-
-  // updatingBacklog: boolean;
-  // updateBacklogSuccess: boolean;
-  // updateBacklogError: boolean;
-
-  // deletingBacklog: boolean;
-  // deleteBacklogSuccess: boolean;
-  // deleteBacklogError: boolean;
 };
 
 export type StoreType = {

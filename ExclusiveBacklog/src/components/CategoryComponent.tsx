@@ -10,20 +10,22 @@ interface CategoryComponentProps {
   onCategoryChange: (value: ICategory) => void;
   categories: ICategory[];
   onNewCategoryPress: () => void;
+  category: string | null;
 }
 
 const CategoryComponent = (props: CategoryComponentProps) => {
-  const {categories, onCategoryChange, onNewCategoryPress} = props;
+  const {category, categories, onCategoryChange, onNewCategoryPress} = props;
 
   return (
     <View style={styles.rowContainer}>
       <SelectDropdown
+        defaultValue={'hello'}
         data={categories}
         onSelect={(selectedItem, index) => {
           // console.log(selectedItem, index);
           onCategoryChange(selectedItem);
         }}
-        defaultButtonText={'Select category'}
+        defaultButtonText={category !== null ? category : 'Select category'}
         buttonTextAfterSelection={(selectedItem, index) => {
           return selectedItem.value;
         }}

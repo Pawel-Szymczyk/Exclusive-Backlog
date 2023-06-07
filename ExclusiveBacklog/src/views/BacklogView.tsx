@@ -11,8 +11,14 @@ type BacklogProps = NativeStackScreenProps<RootStackParamList, 'Backlog'>;
 const BacklogView = ({route, navigation}: BacklogProps) => {
   // -------------------------------------------------------------------
   // controllers
-  const {status, backlog, deleteDialogVisible, setDeleteDialogVisible, onAcceptDeleteClick} =
-    useBacklogViewController();
+  const {
+    status,
+    backlog,
+    deleteDialogVisible,
+    setDeleteDialogVisible,
+    onAcceptDeleteClick,
+    onUpdateBacklogClick,
+  } = useBacklogViewController();
 
   // -------------------------------------------------------------------
   // states
@@ -26,6 +32,10 @@ const BacklogView = ({route, navigation}: BacklogProps) => {
 
   const onDismissDeleteClick = () => {
     setDeleteDialogVisible(false);
+  };
+
+  const onUpdateBacklog = () => {
+    onUpdateBacklogClick(backlog?.id);
   };
 
   // const onAcceptDeleteClick = () => {
@@ -92,14 +102,10 @@ const BacklogView = ({route, navigation}: BacklogProps) => {
           style={style.button}>
           Print QR Code
         </Button>
-        <Button
-          icon="pen"
-          mode="contained"
-          onPress={() => console.log('Update')}
-          style={style.button}>
+
+        <Button icon="pen" mode="contained" onPress={onUpdateBacklog} style={style.button}>
           Update
         </Button>
-
         <Button icon="delete" mode="contained" onPress={onDeleteBacklog} style={style.deleteButton}>
           Delete
         </Button>

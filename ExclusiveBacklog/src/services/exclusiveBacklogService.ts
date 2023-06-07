@@ -88,12 +88,39 @@ export default class exclusiveBacklogService {
     }
   }
 
+  async updateBacklogAsync(id: string, backlog: IBacklog): Promise<IBacklog> {
+    try {
+      const response = await fetch(this.serviceURI + '/exclusive-backlogs/' + id, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(backlog),
+      });
+      const data: IBacklogDTO = await response.json();
+
+      const mappedBacklog: IBacklog = {
+        id: data._id,
+        name: data.name,
+        buyOn: data.buyOn,
+        category: data.category,
+        price: data.price,
+        quantity: data.quantity,
+      };
+
+      return mappedBacklog;
+    } catch (error) {
+      console.error('Error fetch data by id:', error);
+      throw error;
+    }
+  }
+
   // TODO: make it async
-  createBacklog(data: IBacklog) {
+  createBacklog(backlog: IBacklog) {
     return fetch(this.serviceURI + '/exclusive-backlogs', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data),
+      body: JSON.stringify(backlog),
     }).then(function (res) {
       return res.json();
     });
