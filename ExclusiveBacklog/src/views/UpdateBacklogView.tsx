@@ -50,7 +50,7 @@ const UpdateBacklogView = ({route, navigation}: UpdateBacklogProps) => {
         </Button>
       ),
     });
-  }, [backlog, category, navigation]);
+  }, [newBacklog, category, navigation]);
 
   // -----------------------------------------------------------------------------------
   // Event Handlers

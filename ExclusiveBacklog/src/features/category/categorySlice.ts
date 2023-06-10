@@ -45,34 +45,6 @@ export const categorySlice = createSlice({
     resetCategoryStatus: state => {
       state.categoryStatus = Status.IDLE;
     },
-
-    // createCategory: (
-    //   state,
-    //   action: {payload: {name: string; value: string}; type: string},
-    // ) => {
-    //   state.categories = state.categories.concat([
-    //     {
-    //       name: action.payload.name,
-    //       value: action.payload.value,
-    //       id: nanoid(),
-    //     },
-    //   ]);
-    // },
-    // updateBacklog: (state, action: {payload: BacklogType; type: string}) => {
-    //   state.backlogs = state.backlogs.map((backlogItem: BacklogType) => {
-    //     if (backlogItem._id === action.payload._id) {
-    //       backlogItem.name = action.payload.name;
-    //       return backlogItem;
-    //     }
-    //     return backlogItem;
-    //   });
-    //   state.backlogs.concat([action.payload]);
-    // },
-    // deleteBacklog: (state, action: {payload: {id: string}; type: string}) => {
-    //   state.backlogs = state.backlogs.filter(
-    //     (backlogItem: BacklogType) => backlogItem._id !== action.payload.id,
-    //   );
-    // },
   },
   extraReducers(builder) {
     builder

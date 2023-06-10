@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Button, Dialog, TextInput, Modal} from 'react-native-paper';
+import {Button, Dialog, TextInput, Modal, Text} from 'react-native-paper';
 import useNewBacklogViewController from '../viewcontrollers/useNewBacklogViewController';
 import {RootStackParamList} from '../../App';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -119,19 +119,22 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
           onCategoryChange={category => onInputChange('category', category.id)}
           categories={categories}
           onNewCategoryPress={() => setVisible(true)}
+          category={null}
         />
       </View>
       <View>
-        <Button
+        {/* <Button
           icon="qrcode"
           mode="contained"
           onPress={() => console.log('Pressed')}
           style={styles.formButton}>
           Generate QR Code
-        </Button>
+        </Button> */}
         <Button icon="camera" mode="contained" onPress={handleTakeImage} style={styles.formButton}>
           Take Image
         </Button>
+
+        <Text>Code QR will be generated automatically after saving this record.</Text>
       </View>
 
       <Dialog visible={visible} onDismiss={hideDialog}>

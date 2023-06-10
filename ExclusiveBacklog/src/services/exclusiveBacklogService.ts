@@ -90,12 +90,24 @@ export default class exclusiveBacklogService {
 
   async updateBacklogAsync(id: string, backlog: IBacklog): Promise<IBacklog> {
     try {
+      const mappedBacklogDTO: IBacklogDTO = {
+        _id: backlog.id,
+        name: backlog.name,
+        buyOn: backlog.buyOn,
+        category: backlog.category,
+        price: backlog.price,
+        quantity: backlog.quantity,
+        __v: 0,
+        createdOn: '',
+        modifiedOn: '',
+      };
+
       const response = await fetch(this.serviceURI + '/exclusive-backlogs/' + id, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(backlog),
+        body: JSON.stringify(mappedBacklogDTO),
       });
       const data: IBacklogDTO = await response.json();
 
