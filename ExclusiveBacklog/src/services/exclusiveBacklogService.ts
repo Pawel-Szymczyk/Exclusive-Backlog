@@ -19,12 +19,13 @@ export default class exclusiveBacklogService {
 
       // map data
       const mappedBacklogs: IBacklog[] = data.map(item => ({
-        id: item._id,
+        id: item.id,
         name: item.name,
         buyOn: item.buyOn,
         category: item.category,
         price: item.price,
         quantity: item.quantity,
+        base64qrcode: item.base64qrcode,
       }));
 
       // // map data
@@ -56,12 +57,13 @@ export default class exclusiveBacklogService {
 
       // map data
       const mappedBacklog: IBacklog = {
-        id: data._id,
+        id: data.id,
         name: data.name,
         buyOn: data.buyOn,
         category: data.category,
         price: data.price,
         quantity: data.quantity,
+        base64qrcode: data.base64qrcode,
       };
 
       return mappedBacklog;
@@ -91,13 +93,14 @@ export default class exclusiveBacklogService {
   async updateBacklogAsync(id: string, backlog: IBacklog): Promise<IBacklog> {
     try {
       const mappedBacklogDTO: IBacklogDTO = {
-        _id: backlog.id,
+        id: backlog.id,
         name: backlog.name,
         buyOn: backlog.buyOn,
         category: backlog.category,
         price: backlog.price,
         quantity: backlog.quantity,
-        __v: 0,
+        base64qrcode: '',
+        // __v: 0,
         createdOn: '',
         modifiedOn: '',
       };
@@ -112,12 +115,13 @@ export default class exclusiveBacklogService {
       const data: IBacklogDTO = await response.json();
 
       const mappedBacklog: IBacklog = {
-        id: data._id,
+        id: data.id,
         name: data.name,
         buyOn: data.buyOn,
         category: data.category,
         price: data.price,
         quantity: data.quantity,
+        base64qrcode: data.base64qrcode,
       };
 
       return mappedBacklog;

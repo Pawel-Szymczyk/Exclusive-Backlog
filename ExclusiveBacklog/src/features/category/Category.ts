@@ -1,5 +1,5 @@
 export interface ICategoryTDO {
-  _id: string;
+  id: string;
   name: string;
   value: string;
 }

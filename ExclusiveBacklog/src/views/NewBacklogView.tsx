@@ -28,6 +28,7 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
     quantity: 1,
     category: '',
     buyOn: '',
+    base64qrcode: '',
   });
   const [category, setCategory] = useState<ICategory>({
     id: '',

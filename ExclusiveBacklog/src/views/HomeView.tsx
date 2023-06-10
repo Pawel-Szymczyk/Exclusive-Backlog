@@ -7,22 +7,24 @@ import ListComponent from '../components/ListComponent';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../App';
 import {Status} from '../types/Status';
+import QRCodeScannerComponent from '../components/QRCodeScannerComponent';
 
 type HomeBacklogsProps = NativeStackScreenProps<RootStackParamList, 'HomeBacklogs'>;
 
 const HomeBacklogsView = ({route, navigation}: HomeBacklogsProps) => {
   const {status, backlogs, onPressBacklogItem, onPressCreate} = useHomeBacklogViewController();
 
+  const [qrCodeScanner, setQRCodeScanner] = React.useState(false);
+
+  const onPressQRCodeScan = () => {
+    setQRCodeScanner(true);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.navigationContainer}>
-        {/* <IconButton
-          icon="qr-code-scanner"
-          size={20}
-          onPress={() => console.log('Pressed')}
-        /> */}
+        <IconButton icon="qrcode-scan" size={20} onPress={onPressQRCodeScan} />
       </View>
-
       {(() => {
         switch (status) {
           case Status.LOADING:
@@ -34,6 +36,13 @@ const HomeBacklogsView = ({route, navigation}: HomeBacklogsProps) => {
           case Status.SUCCEEDED:
             return (
               <View style={styles.contentContainer}>
+                {qrCodeScanner && (
+                  <QRCodeScannerComponent
+                    setModalVisible={() => setQRCodeScanner(false)}
+                    showModal={qrCodeScanner}
+                  />
+                )}
+
                 <ListComponent
                   onListItemPressEventHandler={onPressBacklogItem}
                   listItems={backlogs}

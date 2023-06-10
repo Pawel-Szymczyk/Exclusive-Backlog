@@ -10,7 +10,7 @@ export default class exclusiveBacklogCategoryService {
 
       // map data
       const mappedCategory: ICategory[] = data.map(item => ({
-        id: item._id,
+        id: item.id,
         name: item.name,
         value: item.value,
       }));
