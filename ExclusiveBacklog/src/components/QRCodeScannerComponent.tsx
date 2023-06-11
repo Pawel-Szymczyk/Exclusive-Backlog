@@ -1,14 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import {Image, Text, View, StyleSheet, Button, Modal} from 'react-native';
 import {BarCodeScanner, BarCodeScannerResult} from 'expo-barcode-scanner';
+import {IQRCodeScanner} from '../features/backlog/Backlog';
 
 interface QRCodeScannerComponentProps {
-  showModal: boolean;
-  setModalVisible: () => void;
+  isQrCodeScannerOpen: boolean;
+  onQRCodeScanned: (qrCodeScanner: IQRCodeScanner) => void;
 }
 
 const QRCodeScannerComponent = (props: QRCodeScannerComponentProps) => {
-  const {showModal, setModalVisible} = props;
+  const {isQrCodeScannerOpen, onQRCodeScanned} = props;
 
   const [hasPermission, setHasPermission] = useState<boolean>();
   const [scanned, setScanned] = useState(false);
@@ -20,9 +21,12 @@ const QRCodeScannerComponent = (props: QRCodeScannerComponentProps) => {
     })();
   }, []);
 
-  const handleBarCodeScanned = ({type, data}: BarCodeScannerResult) => {
+  const handleQRCodeScanned = ({type, data}: BarCodeScannerResult) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+
+    // read and return receive data.
+    const qrCodeData = JSON.parse(data) as IQRCodeScanner;
+    onQRCodeScanned(qrCodeData);
   };
 
   if (hasPermission === null) {
@@ -34,13 +38,7 @@ const QRCodeScannerComponent = (props: QRCodeScannerComponentProps) => {
   }
 
   return (
-    <Modal
-      animationType="slide"
-      transparent={false}
-      visible={showModal}
-      onRequestClose={() => {
-        setModalVisible();
-      }}>
+    <Modal animationType="slide" transparent={false} visible={isQrCodeScannerOpen}>
       <View
         style={{
           flex: 1,
@@ -48,24 +46,15 @@ const QRCodeScannerComponent = (props: QRCodeScannerComponentProps) => {
           justifyContent: 'flex-end',
         }}>
         <BarCodeScanner
-          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          onBarCodeScanned={scanned ? undefined : handleQRCodeScanned}
           style={[StyleSheet.absoluteFillObject, styles.container]}>
           <Text style={styles.description}>Scan your QR code</Text>
-          <Image
-            style={styles.qr}
-            source={
-              require('../../assets/qr-scanner.png')
-              //     {
-              // //   uri: 'https://facebook.github.io/react-native/img/tiny_logo.png',
-              // }
-            }
-          />
+          <Image style={styles.qr} source={require('../../assets/qr-scanner.png')} />
           <Text onPress={() => alert('Navigate back from here')} style={styles.cancel}>
             Cancel
           </Text>
         </BarCodeScanner>
         {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
-        {/* <Text>Hello</Text> */}
       </View>
     </Modal>
   );

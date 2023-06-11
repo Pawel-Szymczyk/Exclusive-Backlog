@@ -131,7 +131,7 @@ const style = StyleSheet.create({
     display: 'flex',
     flex: 1,
 
-    backgroundColor: '#fff',
+    backgroundColor: '#f8f6f7',
   },
   imageContainer: {},
   tableContainer: {

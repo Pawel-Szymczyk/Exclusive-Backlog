@@ -3,8 +3,6 @@ import {StyleSheet, View} from 'react-native';
 import {Button, Dialog, TextInput, Modal} from 'react-native-paper';
 import {RootStackParamList} from '../../App';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import DatePickerComponent from '../components/DatePickerComponent';
-import CategoryComponent from '../components/CategoryComponent';
 import CameraComponent from '../components/CameraComponent';
 import {IBacklog} from '../features/backlog/Backlog';
 import {ICategory} from '../features/category/Category';
@@ -29,6 +27,7 @@ const UpdateBacklogView = ({route, navigation}: UpdateBacklogProps) => {
     quantity: backlog !== null ? backlog.quantity : 1,
     category: backlog !== null ? backlog.category : '',
     buyOn: backlog !== null ? backlog.buyOn : '',
+    base64qrcode: backlog !== null ? backlog.base64qrcode : '',
   });
   const [category, setCategory] = useState<ICategory>({
     id: '',
@@ -176,7 +175,7 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     paddingLeft: 30,
     paddingRight: 30,
-    backgroundColor: '#FFF',
+    backgroundColor: '#f8f6f7',
   },
   form: {
     flex: 1,

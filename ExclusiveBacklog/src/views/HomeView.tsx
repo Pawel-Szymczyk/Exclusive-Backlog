@@ -1,4 +1,3 @@
-import {StatusBar} from 'expo-status-bar';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import useHomeBacklogViewController from '../viewcontrollers/useHomeBacklogViewController';
@@ -12,18 +11,24 @@ import QRCodeScannerComponent from '../components/QRCodeScannerComponent';
 type HomeBacklogsProps = NativeStackScreenProps<RootStackParamList, 'HomeBacklogs'>;
 
 const HomeBacklogsView = ({route, navigation}: HomeBacklogsProps) => {
-  const {status, backlogs, onPressBacklogItem, onPressCreate} = useHomeBacklogViewController();
+  const {
+    qrCodeScanner,
+    setQRCodeScanner,
+    status,
+    backlogs,
+    onPressBacklogItem,
+    onPressCreate,
+    onQRCodeScanned,
+  } = useHomeBacklogViewController();
 
-  const [qrCodeScanner, setQRCodeScanner] = React.useState(false);
-
-  const onPressQRCodeScan = () => {
+  const onPressQRCodeButton = () => {
     setQRCodeScanner(true);
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.navigationContainer}>
-        <IconButton icon="qrcode-scan" size={20} onPress={onPressQRCodeScan} />
+        <IconButton icon="qrcode-scan" size={20} onPress={onPressQRCodeButton} />
       </View>
       {(() => {
         switch (status) {
@@ -36,10 +41,11 @@ const HomeBacklogsView = ({route, navigation}: HomeBacklogsProps) => {
           case Status.SUCCEEDED:
             return (
               <View style={styles.contentContainer}>
+                {/* QR Code Scanner */}
                 {qrCodeScanner && (
                   <QRCodeScannerComponent
-                    setModalVisible={() => setQRCodeScanner(false)}
-                    showModal={qrCodeScanner}
+                    isQrCodeScannerOpen={qrCodeScanner}
+                    onQRCodeScanned={onQRCodeScanned}
                   />
                 )}
 
@@ -73,7 +79,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 9,
-    backgroundColor: 'steelblue',
+    backgroundColor: '#f8f6f7',
     padding: 10,
   },
   input: {

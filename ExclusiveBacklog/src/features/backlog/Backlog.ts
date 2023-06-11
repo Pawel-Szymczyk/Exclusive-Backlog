@@ -29,3 +29,8 @@ export interface IBacklogResponseDTO {
   code: number;
   message: string;
 }
+
+export interface IQRCodeScanner {
+  id: string;
+  name: string;
+}

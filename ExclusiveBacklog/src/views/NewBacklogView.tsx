@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     paddingLeft: 30,
     paddingRight: 30,
-    backgroundColor: '#FFF',
+    backgroundColor: '#f8f6f7',
   },
   form: {
     flex: 1,
