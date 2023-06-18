@@ -46,6 +46,7 @@ const HomeBacklogsView = ({route, navigation}: HomeBacklogsProps) => {
                   <QRCodeScannerComponent
                     isQrCodeScannerOpen={qrCodeScanner}
                     onQRCodeScanned={onQRCodeScanned}
+                    setQRScannerVisible={() => setQRCodeScanner(false)}
                   />
                 )}
 

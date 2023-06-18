@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Image} from 'react-native';
 import {Button, Dialog, TextInput, Modal, Text} from 'react-native-paper';
 import useNewBacklogViewController from '../viewcontrollers/useNewBacklogViewController';
 import {RootStackParamList} from '../../App';
@@ -16,7 +16,8 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
   // -----------------------------------------------------------------------------------
   // Controllers
 
-  const {categories, onCategoryFormSubmit, onFormSubmit} = useNewBacklogViewController();
+  const {categories, onCategoryFormSubmit, onFormSubmit, camera, setShowCamera} =
+    useNewBacklogViewController();
 
   // -----------------------------------------------------------------------------------
   // React States
@@ -29,6 +30,7 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
     category: '',
     buyOn: '',
     base64qrcode: '',
+    base64image: '',
   });
   const [category, setCategory] = useState<ICategory>({
     id: '',
@@ -37,7 +39,6 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
   });
 
   const [visible, setVisible] = React.useState(false);
-  const [camera, setShowCamera] = React.useState(false);
 
   // -----------------------------------------------------------------------------------
   // React Hooks
@@ -85,6 +86,17 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
     setVisible(false);
   };
 
+  const onTakePhoto = (photoBase64: string) => {
+    setShowCamera(false);
+
+    var base64Icon = 'data:image/png;base64,' + photoBase64;
+
+    setBacklog(prevState => ({
+      ...prevState,
+      base64image: base64Icon,
+    }));
+  };
+
   // -----------------------------------------------------------------------------------
   // View
 
@@ -124,13 +136,18 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
         />
       </View>
       <View>
-        {/* <Button
-          icon="qrcode"
-          mode="contained"
-          onPress={() => console.log('Pressed')}
-          style={styles.formButton}>
-          Generate QR Code
-        </Button> */}
+        <Image
+          style={{
+            width: 'auto',
+            height: 150,
+            // resizeMode: Image. resizeMode.contain,
+            borderWidth: 1,
+            borderColor: 'red',
+            marginBottom: 15,
+          }}
+          source={{uri: backlog.base64image !== '' ? backlog.base64image : undefined}}
+        />
+
         <Button icon="camera" mode="contained" onPress={handleTakeImage} style={styles.formButton}>
           Take Image
         </Button>
@@ -159,11 +176,12 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
         </Dialog.Actions>
       </Dialog>
 
-      {/* <Modal visible={isCameraVisible} onDismiss={hideModal}>
-        <CameraComponent />
-      </Modal> */}
       {camera && (
-        <CameraComponent showModal={camera} setModalVisible={() => setShowCamera(false)} />
+        <CameraComponent
+          isCameraOpen={camera}
+          onTakePhoto={onTakePhoto}
+          setCameraVisible={() => setShowCamera(false)}
+        />
       )}
     </View>
   );

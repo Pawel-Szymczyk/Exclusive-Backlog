@@ -26,6 +26,7 @@ export default class exclusiveBacklogService {
         price: item.price,
         quantity: item.quantity,
         base64qrcode: item.base64qrcode,
+        base64image: item.base64image,
       }));
 
       // // map data
@@ -64,6 +65,7 @@ export default class exclusiveBacklogService {
         price: data.price,
         quantity: data.quantity,
         base64qrcode: data.base64qrcode,
+        base64image: data.base64image,
       };
 
       return mappedBacklog;
@@ -100,6 +102,7 @@ export default class exclusiveBacklogService {
         price: backlog.price,
         quantity: backlog.quantity,
         base64qrcode: '',
+        base64image: backlog.base64image,
         // __v: 0,
         createdOn: '',
         modifiedOn: '',
@@ -122,6 +125,7 @@ export default class exclusiveBacklogService {
         price: data.price,
         quantity: data.quantity,
         base64qrcode: data.base64qrcode,
+        base64image: data.base64image,
       };
 
       return mappedBacklog;

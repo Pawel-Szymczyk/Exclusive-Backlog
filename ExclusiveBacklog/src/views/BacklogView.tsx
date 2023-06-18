@@ -58,8 +58,14 @@ const BacklogView = ({route, navigation}: BacklogProps) => {
         <Image
           style={{width: 'auto', height: 150}}
           source={{
-            uri: 'https://cdn.thewirecutter.com/wp-content/media/2021/09/pens-2048px-6546-2x1-1.jpg?auto=webp&quality=75&crop=2:1&width=980&dpr=2',
+            uri:
+              backlog?.base64image !== ''
+                ? backlog?.base64image
+                : 'https://cdn.thewirecutter.com/wp-content/media/2021/09/pens-2048px-6546-2x1-1.jpg?auto=webp&quality=75&crop=2:1&width=980&dpr=2',
           }}
+          // source={{
+          //   uri: 'https://cdn.thewirecutter.com/wp-content/media/2021/09/pens-2048px-6546-2x1-1.jpg?auto=webp&quality=75&crop=2:1&width=980&dpr=2',
+          // }}
         />
       </View>
       <View style={style.tableContainer}>

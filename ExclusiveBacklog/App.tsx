@@ -9,7 +9,6 @@ import NewBacklogView from './src/views/NewBacklogView';
 import BacklogView from './src/views/BacklogView';
 // import {BacklogType} from './src/types/BacklogType';
 import {enGB, registerTranslation} from 'react-native-paper-dates';
-import {IBacklog} from './src/features/backlog/Backlog';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import UpdateBacklogView from './src/views/UpdateBacklogView';
 

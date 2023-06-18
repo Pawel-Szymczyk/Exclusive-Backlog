@@ -6,10 +6,11 @@ import {IQRCodeScanner} from '../features/backlog/Backlog';
 interface QRCodeScannerComponentProps {
   isQrCodeScannerOpen: boolean;
   onQRCodeScanned: (qrCodeScanner: IQRCodeScanner) => void;
+  setQRScannerVisible: () => void;
 }
 
 const QRCodeScannerComponent = (props: QRCodeScannerComponentProps) => {
-  const {isQrCodeScannerOpen, onQRCodeScanned} = props;
+  const {isQrCodeScannerOpen, onQRCodeScanned, setQRScannerVisible} = props;
 
   const [hasPermission, setHasPermission] = useState<boolean>();
   const [scanned, setScanned] = useState(false);
@@ -38,7 +39,13 @@ const QRCodeScannerComponent = (props: QRCodeScannerComponentProps) => {
   }
 
   return (
-    <Modal animationType="slide" transparent={false} visible={isQrCodeScannerOpen}>
+    <Modal
+      animationType="slide"
+      transparent={false}
+      visible={isQrCodeScannerOpen}
+      onRequestClose={() => {
+        setQRScannerVisible();
+      }}>
       <View
         style={{
           flex: 1,
@@ -48,7 +55,7 @@ const QRCodeScannerComponent = (props: QRCodeScannerComponentProps) => {
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : handleQRCodeScanned}
           style={[StyleSheet.absoluteFillObject, styles.container]}>
-          <Text style={styles.description}>Scan your QR code</Text>
+          {/* <Text style={styles.description}>Scan your QR code</Text> */}
           <Image style={styles.qr} source={require('../../assets/qr-scanner.png')} />
           <Text onPress={() => alert('Navigate back from here')} style={styles.cancel}>
             Cancel

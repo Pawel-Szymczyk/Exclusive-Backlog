@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch} from '../app/store';
 import {BacklogStateType, StoreType} from '../features/backlog/BacklogStateType';
 import {CategoryStateType, CategoryStoreType} from '../features/category/CategoryStateType';
-import {BacklogAction} from '../features/backlog/backlogSlice';
+import backlogSlice, {BacklogAction} from '../features/backlog/backlogSlice';
 import {CategoryAction} from '../features/category/categorySlice';
 import {Status} from '../types/Status';
 
@@ -24,6 +24,8 @@ const useNewBacklogViewController = () => {
 
   const {createBacklog, resetStatus} = BacklogAction;
   const {createCategory, fetchCategories, resetCategoryStatus} = CategoryAction;
+
+  const [camera, setShowCamera] = useState(false);
 
   useEffect(() => {
     if (categoryStatus === Status.IDLE) {
@@ -54,6 +56,8 @@ const useNewBacklogViewController = () => {
     categories,
     onFormSubmit,
     onCategoryFormSubmit,
+    camera,
+    setShowCamera,
   };
 };
 
