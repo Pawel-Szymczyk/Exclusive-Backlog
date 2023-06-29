@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import useHomeBacklogViewController from '../viewcontrollers/useHomeBacklogViewController';
-import {FAB, IconButton, Text} from 'react-native-paper';
+import {FAB, IconButton, Snackbar, Text} from 'react-native-paper';
 import ListComponent from '../components/ListComponent';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../App';
@@ -19,17 +19,43 @@ const HomeBacklogsView = ({route, navigation}: HomeBacklogsProps) => {
     onPressBacklogItem,
     onPressCreate,
     onQRCodeScanned,
+    onPressExportToXmlButton,
+    onPressExportQRCodesButton,
   } = useHomeBacklogViewController();
 
   const onPressQRCodeButton = () => {
     setQRCodeScanner(true);
   };
 
+  // --------------------------------------------------------
+  // FAB Group
+
+  const [state, setState] = React.useState({open: false});
+
+  const onStateChange = ({open}: any) => setState({open});
+
+  const {open} = state;
+
+  // --------------------------------------------------------
+
+  // --------------------------------------------------------
+  // Snackbar (status message popup)
+
+  const [visibleSnackBar, setVisibleSnackBar] = React.useState(false);
+  const [messageSnackBar, setMessageSnackBar] = React.useState('');
+  const onDismissSnackBar = () => setVisibleSnackBar(false);
+
+  // --------------------------------------------------------
+
   return (
     <View style={styles.container}>
-      <View style={styles.navigationContainer}>
+      {/* TODO: This section will be for search feature */}
+      {/* <View style={styles.navigationContainer}>
+        <IconButton icon="export" size={20} onPress={onPressQRCodeButton} />
+        <IconButton icon="xml" size={20} onPress={onPressQRCodeButton} />
         <IconButton icon="qrcode-scan" size={20} onPress={onPressQRCodeButton} />
-      </View>
+      </View> */}
+
       {(() => {
         switch (status) {
           case Status.LOADING:
@@ -55,13 +81,74 @@ const HomeBacklogsView = ({route, navigation}: HomeBacklogsProps) => {
                   listItems={backlogs}
                   title="Backlogs"
                 />
-                <FAB icon="plus" style={styles.fab} onPress={onPressCreate} />
+                {/* <FAB icon="plus" style={styles.fab} onPress={onPressCreate} /> */}
+
+                <FAB.Group
+                  open={open}
+                  visible
+                  icon={open ? 'plus' : 'menu'}
+                  actions={[
+                    {
+                      icon: 'cog-outline',
+                      label: 'Settings',
+                      onPress: () => console.log('settings'),
+                    },
+                    {
+                      icon: 'xml',
+                      label: 'Export to XML',
+                      onPress: async () => {
+                        const message = await onPressExportToXmlButton();
+                        setMessageSnackBar(message);
+                        setVisibleSnackBar(!visibleSnackBar);
+                      },
+                    },
+                    {
+                      icon: 'export',
+                      label: 'Export QR Codes',
+                      onPress: async () => {
+                        const message = await onPressExportQRCodesButton();
+                        setMessageSnackBar(message);
+                        setVisibleSnackBar(!visibleSnackBar);
+                      },
+                    },
+                    {
+                      icon: 'folder-outline',
+                      label: 'Export QR Codes By Cat.',
+                      onPress: async () => {
+                        // const message = await onPressExportQRCodesButton();
+                        // setMessageSnackBar(message);
+                        // setVisibleSnackBar(!visibleSnackBar);
+                      },
+                    },
+                    {
+                      icon: 'qrcode-scan',
+                      label: 'Scan QR Code',
+                      onPress: () => onPressQRCodeButton(),
+                    },
+                  ]}
+                  onStateChange={onStateChange}
+                  onPress={() => {
+                    if (open) {
+                      // add new backlog...
+                      onPressCreate();
+                    }
+                  }}
+                />
               </View>
             );
           default:
             return null;
         }
       })()}
+
+      <Snackbar
+        visible={visibleSnackBar}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: 'Close',
+        }}>
+        {messageSnackBar}
+      </Snackbar>
     </View>
   );
 };

@@ -12,6 +12,65 @@ export default class exclusiveBacklogService {
   //   });
   // }
 
+  // ---------------------------------------------------------
+  // XML
+  //
+
+  async exportBacklogsToXmlAsync(): Promise<string> {
+    try {
+      const response = await fetch(this.serviceURI + '/files/export-to-xml');
+      const data: IBacklogResponseDTO = await response.json();
+
+      return data.message;
+    } catch (error) {
+      console.error('Error during exporting backlogs to xml: ', error);
+      throw error;
+    }
+  }
+
+  // ---------------------------------------------------------
+
+  // ---------------------------------------------------------
+  // QR Codes
+  //
+  async exportAllQRCodesAsync(): Promise<string> {
+    try {
+      const response = await fetch(this.serviceURI + '/qr-codes/export');
+      const data: IBacklogResponseDTO = await response.json();
+
+      return data.message;
+    } catch (error) {
+      console.error('Error during exporting qr codes: ', error);
+      throw error;
+    }
+  }
+
+  async exportQRCodeByBacklogIdAsync(id: string): Promise<string> {
+    try {
+      const response = await fetch(this.serviceURI + '/qr-codes/export/' + id);
+      const data: IBacklogResponseDTO = await response.json();
+
+      return data.message;
+    } catch (error) {
+      console.error('Error during exporting qr codes: ', error);
+      throw error;
+    }
+  }
+
+  async exportQRCodesByCategoryIdAsync(id: string): Promise<string> {
+    try {
+      const response = await fetch(this.serviceURI + '/qr-codes/export/group/' + id);
+      const data: IBacklogResponseDTO = await response.json();
+
+      return data.message;
+    } catch (error) {
+      console.error('Error during exporting qr codes: ', error);
+      throw error;
+    }
+  }
+
+  // ---------------------------------------------------------
+
   async getAllBacklogsAsync(): Promise<IBacklog[]> {
     try {
       const response = await fetch(this.serviceURI + '/exclusive-backlogs');

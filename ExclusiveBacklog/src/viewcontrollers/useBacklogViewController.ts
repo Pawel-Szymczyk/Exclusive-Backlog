@@ -17,7 +17,8 @@ const useBacklogViewController = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const {status, backlog}: BacklogStateType = useSelector((state: StoreType) => state.backlog);
-  const {fetchBacklogById, deleteBacklogById, resetStatus} = BacklogAction;
+  const {fetchBacklogById, deleteBacklogById, resetStatus, exportQRCodeByBacklogIdAsync} =
+    BacklogAction;
 
   useEffect(() => {
     const {id, name} = route.params as RootStackParamList['Backlog'];
@@ -51,6 +52,15 @@ const useBacklogViewController = () => {
     }
   };
 
+  const onExportQRCodeByIdClick = async (backlogId: string | undefined): Promise<string> => {
+    if (backlogId !== undefined) {
+      const response = await dispatch(exportQRCodeByBacklogIdAsync(backlogId));
+      return response.payload as string;
+    } else {
+      return 'Backlog id is incorrect.';
+    }
+  };
+
   return {
     status,
     backlog,
@@ -58,6 +68,7 @@ const useBacklogViewController = () => {
     setDeleteDialogVisible,
     onAcceptDeleteClick,
     onUpdateBacklogClick,
+    onExportQRCodeByIdClick,
   };
 };
 

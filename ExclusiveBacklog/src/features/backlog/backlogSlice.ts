@@ -54,6 +54,28 @@ export const updateBacklog = createAsyncThunk(
   },
 );
 
+export const exportToXml = createAsyncThunk('backlogs/exportToXml', async () => {
+  return backlogService.exportBacklogsToXmlAsync();
+});
+
+export const exportQRCodesAsync = createAsyncThunk('backlogs/exportQRCodesAsync', async () => {
+  return backlogService.exportAllQRCodesAsync();
+});
+
+export const exportQRCodeByBacklogIdAsync = createAsyncThunk(
+  'backlogs/exportQRCodeByBacklogIdAsync',
+  async (id: string) => {
+    return backlogService.exportQRCodeByBacklogIdAsync(id);
+  },
+);
+
+export const exportQRCodesByCategoryIdAsync = createAsyncThunk(
+  'backlogs/exportQRCodeByCategoryIdAsync',
+  async (id: string) => {
+    return backlogService.exportQRCodesByCategoryIdAsync(id);
+  },
+);
+
 export const backlogSlice = createSlice({
   name: 'backlogs',
   initialState,
@@ -61,33 +83,6 @@ export const backlogSlice = createSlice({
     resetStatus: state => {
       state.status = Status.IDLE;
     },
-    // createBacklog: (
-    //   state,
-    //   action: {payload: {name: string; category: string}; type: string},
-    // ) => {
-    //   state.backlogs = state.backlogs.concat([
-    //     {
-    //       name: action.payload.name,
-    //       _id: nanoid(),
-    //       category: action.payload.category,
-    //     },
-    //   ]);
-    // },
-    // updateBacklog: (state, action: {payload: IBacklog; type: string}) => {
-    //   state.backlogs = state.backlogs.map((backlogItem: IBacklog) => {
-    //     if (backlogItem.id === action.payload.id) {
-    //       backlogItem.name = action.payload.name;
-    //       return backlogItem;
-    //     }
-    //     return backlogItem;
-    //   });
-    //   state.backlogs.concat([action.payload]);
-    // },
-    // deleteBacklog: (state, action: {payload: {id: string}; type: string}) => {
-    //   state.backlogs = state.backlogs.filter(
-    //     (backlogItem: IBacklog) => backlogItem.id !== action.payload.id,
-    //   );
-    // },
   },
   extraReducers(builder) {
     builder
@@ -152,6 +147,58 @@ export const backlogSlice = createSlice({
       })
       .addCase(updateBacklog.rejected, state => {
         state.status = Status.FAILED;
+      })
+
+      // -----------------------------------------------
+      // export backlogs to xml
+      .addCase(exportToXml.pending, state => {
+        state.status = Status.LOADING;
+      })
+      .addCase(exportToXml.fulfilled, (state, action) => {
+        state.message = action.payload;
+        state.status = Status.SUCCEEDED;
+      })
+      .addCase(exportToXml.rejected, state => {
+        state.status = Status.FAILED;
+      })
+
+      // -----------------------------------------------
+      // export qr codes
+      .addCase(exportQRCodesAsync.pending, state => {
+        state.status = Status.LOADING;
+      })
+      .addCase(exportQRCodesAsync.fulfilled, (state, action) => {
+        state.message = action.payload;
+        state.status = Status.SUCCEEDED;
+      })
+      .addCase(exportQRCodesAsync.rejected, state => {
+        state.status = Status.FAILED;
+      })
+
+      // -----------------------------------------------
+      // export qr code by backlog id
+      .addCase(exportQRCodeByBacklogIdAsync.pending, state => {
+        state.status = Status.LOADING;
+      })
+      .addCase(exportQRCodeByBacklogIdAsync.fulfilled, (state, action) => {
+        state.message = action.payload;
+        state.status = Status.SUCCEEDED;
+      })
+      .addCase(exportQRCodeByBacklogIdAsync.rejected, state => {
+        state.status = Status.FAILED;
+      })
+
+      // -----------------------------------------------
+      // export qr codes by category id
+      .addCase(exportQRCodesByCategoryIdAsync.pending, state => {
+        state.status = Status.LOADING;
+      })
+      .addCase(exportQRCodesByCategoryIdAsync.fulfilled, (state, action) => {
+        state.message = action.payload;
+        state.status = Status.SUCCEEDED;
+      })
+      .addCase(exportQRCodesByCategoryIdAsync.rejected, state => {
+        state.status = Status.FAILED;
       });
   },
 });
@@ -170,7 +217,10 @@ export const BacklogAction = {
   fetchBacklogById,
   deleteBacklogById,
   updateBacklog,
-  // deleteBacklog,
+  exportToXml,
+  exportQRCodesAsync,
+  exportQRCodeByBacklogIdAsync,
+  exportQRCodesByCategoryIdAsync,
 };
 
 export default backlogSlice.reducer;

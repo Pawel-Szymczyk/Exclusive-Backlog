@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {StyleSheet, Image, View, TouchableOpacity, FlatList, ScrollView} from 'react-native';
 import {RootStackParamList} from '../../App';
 import useBacklogViewController from '../viewcontrollers/useBacklogViewController';
-import {DataTable, Button} from 'react-native-paper';
+import {DataTable, Button, Snackbar} from 'react-native-paper';
 import DialogComponent from '../components/DialogComponent';
 
 type BacklogProps = NativeStackScreenProps<RootStackParamList, 'Backlog'>;
@@ -18,6 +18,7 @@ const BacklogView = ({route, navigation}: BacklogProps) => {
     setDeleteDialogVisible,
     onAcceptDeleteClick,
     onUpdateBacklogClick,
+    onExportQRCodeByIdClick,
   } = useBacklogViewController();
 
   // -------------------------------------------------------------------
@@ -38,6 +39,12 @@ const BacklogView = ({route, navigation}: BacklogProps) => {
     onUpdateBacklogClick(backlog?.id);
   };
 
+  const onExportQRCode = async () => {
+    const message = await onExportQRCodeByIdClick(backlog?.id);
+    setMessageSnackBar(message);
+    setVisibleSnackBar(!visibleSnackBar);
+  };
+
   // const onAcceptDeleteClick = () => {
   //   setDeleteDialogVisible(false);
   // };
@@ -49,6 +56,15 @@ const BacklogView = ({route, navigation}: BacklogProps) => {
       title: route.name,
     });
   }, [navigation]);
+
+  // --------------------------------------------------------
+  // Snackbar (status message popup)
+
+  const [visibleSnackBar, setVisibleSnackBar] = React.useState(false);
+  const [messageSnackBar, setMessageSnackBar] = React.useState('');
+  const onDismissSnackBar = () => setVisibleSnackBar(false);
+
+  // --------------------------------------------------------
 
   // -------------------------------------------------------------------
   // view
@@ -101,12 +117,8 @@ const BacklogView = ({route, navigation}: BacklogProps) => {
         </DataTable>
       </View>
       <View style={{paddingBottom: 5, paddingLeft: 30, paddingRight: 30}}>
-        <Button
-          icon="qrcode"
-          mode="contained"
-          onPress={() => console.log('Print QR Code')}
-          style={style.button}>
-          Print QR Code
+        <Button icon="qrcode" mode="contained" onPress={onExportQRCode} style={style.button}>
+          Export QR Code
         </Button>
 
         <Button icon="pen" mode="contained" onPress={onUpdateBacklog} style={style.button}>
@@ -126,6 +138,15 @@ const BacklogView = ({route, navigation}: BacklogProps) => {
         onAccept={onAcceptDeleteClick}
         onDismiss={onDismissDeleteClick}
       />
+
+      <Snackbar
+        visible={visibleSnackBar}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: 'Close',
+        }}>
+        {messageSnackBar}
+      </Snackbar>
     </View>
   );
 };

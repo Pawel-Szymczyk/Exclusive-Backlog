@@ -17,7 +17,7 @@ const useHomeBacklogViewController = () => {
 
   const {status, backlogs}: BacklogStateType = useSelector((state: StoreType) => state.backlog);
 
-  const {resetStatus, fetchBacklogs} = BacklogAction;
+  const {resetStatus, fetchBacklogs, exportToXml, exportQRCodesAsync} = BacklogAction;
 
   const [qrCodeScanner, setQRCodeScanner] = useState(false);
 
@@ -47,6 +47,16 @@ const useHomeBacklogViewController = () => {
     navigation.navigate('Backlog', {name: qrCodeScanner.name, id: qrCodeScanner.id});
   };
 
+  const onPressExportToXmlButton = async (): Promise<string> => {
+    const response = await dispatch(exportToXml());
+    return response.payload as string;
+  };
+
+  const onPressExportQRCodesButton = async (): Promise<string> => {
+    const response = await dispatch(exportQRCodesAsync());
+    return response.payload as string;
+  };
+
   return {
     qrCodeScanner,
     setQRCodeScanner,
@@ -55,6 +65,8 @@ const useHomeBacklogViewController = () => {
     onPressBacklogItem,
     onPressCreate,
     onQRCodeScanned,
+    onPressExportToXmlButton,
+    onPressExportQRCodesButton,
   };
 };
 
