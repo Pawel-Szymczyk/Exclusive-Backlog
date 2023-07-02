@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "ExclusiveBacklog",
-    "slug": "ExclusiveBacklog",
-    "version": "1.0.0",
+    "name": "exclusive-backlog",
+    "slug": "exclusive-backlog",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -12,9 +12,7 @@
       "backgroundColor": "#ffffff"
     },
     "jsEngine": "jsc",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -22,12 +20,18 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.pawelszymczyk.exclusivebacklog"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "sdkVersion": "48.0.0"
+    "sdkVersion": "48.0.0",
+    "extra": {
+      "eas": {
+        "projectId": "75a46f5d-789b-4bc8-b03d-7b8e43024a83"
+      }
+    }
   },
   "name": "exclusivebacklog"
 }

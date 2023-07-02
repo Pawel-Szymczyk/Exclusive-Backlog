@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Button, Dialog, TextInput, Modal} from 'react-native-paper';
+import {StyleSheet, View, Image} from 'react-native';
+import {Button, Dialog, TextInput, Text} from 'react-native-paper';
 import {RootStackParamList} from '../../App';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import CameraComponent from '../components/CameraComponent';
 import {IBacklog} from '../features/backlog/Backlog';
 import {ICategory} from '../features/category/Category';
 import useUpdateBacklogViewController from '../viewcontrollers/useUpdateBacklogController';
+import DatePickerComponent from '../components/DatePickerComponent';
 
 type UpdateBacklogProps = NativeStackScreenProps<RootStackParamList, 'UpdateBacklog'>;
 
@@ -28,6 +29,9 @@ const UpdateBacklogView = ({route, navigation}: UpdateBacklogProps) => {
     category: backlog !== null ? backlog.category : '',
     buyOn: backlog !== null ? backlog.buyOn : '',
     base64qrcode: backlog !== null ? backlog.base64qrcode : '',
+    base64image: backlog !== null ? backlog.base64image : '',
+    createdOn: backlog !== null ? backlog.createdOn : '',
+    modifiedOn: backlog !== null ? backlog.modifiedOn : '',
   });
   const [category, setCategory] = useState<ICategory>({
     id: '',
@@ -84,12 +88,41 @@ const UpdateBacklogView = ({route, navigation}: UpdateBacklogProps) => {
     setVisible(false);
   };
 
+  // return date in format dd/mm/yyyy to iso date
+  const formatBuyOnDate = (date: string) => {
+    let [day, month, year] = date.split('/');
+    const dateFormatted = new Date(+year, +month - 1, +day);
+    return dateFormatted;
+  };
+
+  const onTakePhoto = (photoBase64: string) => {
+    setShowCamera(false);
+
+    var base64Icon = 'data:image/png;base64,' + photoBase64;
+
+    setNewBacklog(prevState => ({
+      ...prevState,
+      base64image: base64Icon,
+    }));
+  };
+
   // -----------------------------------------------------------------------------------
   // View
 
   return (
     <View style={styles.container}>
       <View style={styles.form}>
+        {newBacklog.base64image && (
+          <Image
+            style={{
+              width: 'auto',
+              height: 150,
+              marginBottom: 15,
+            }}
+            source={{uri: newBacklog.base64image !== '' ? newBacklog.base64image : undefined}}
+          />
+        )}
+
         <TextInput
           label="Name"
           value={newBacklog.name}
@@ -114,7 +147,11 @@ const UpdateBacklogView = ({route, navigation}: UpdateBacklogProps) => {
           style={styles.formInput}
         />
 
-        {/* <DatePickerComponent onBuyOnChange={date => onInputChange('buyOn', date)} />
+        <DatePickerComponent
+          buyOn={formatBuyOnDate(newBacklog.buyOn)}
+          onBuyOnChange={date => onInputChange('buyOn', date)}
+        />
+        {/* 
 
         <CategoryComponent
           category={backlog?.category}
@@ -122,19 +159,12 @@ const UpdateBacklogView = ({route, navigation}: UpdateBacklogProps) => {
           categories={categories}
           onNewCategoryPress={() => setVisible(true)}
         /> */}
-      </View>
 
-      <View>
-        <Button
-          icon="qrcode"
-          mode="contained"
-          onPress={() => console.log('Pressed')}
-          style={styles.formButton}>
-          Generate QR Code
-        </Button>
         <Button icon="camera" mode="contained" onPress={handleTakeImage} style={styles.formButton}>
           Take Image
         </Button>
+
+        <Text>Code QR will be re-generated automatically after saving this record.</Text>
       </View>
 
       <Dialog visible={visible} onDismiss={hideDialog}>
@@ -158,11 +188,12 @@ const UpdateBacklogView = ({route, navigation}: UpdateBacklogProps) => {
         </Dialog.Actions>
       </Dialog>
 
-      {/* <Modal visible={isCameraVisible} onDismiss={hideModal}>
-        <CameraComponent />
-      </Modal> */}
       {camera && (
-        <CameraComponent showModal={camera} setModalVisible={() => setShowCamera(false)} />
+        <CameraComponent
+          isCameraOpen={camera}
+          onTakePhoto={onTakePhoto}
+          setCameraVisible={() => setShowCamera(false)}
+        />
       )}
     </View>
   );

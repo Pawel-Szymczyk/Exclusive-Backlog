@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Image} from 'react-native';
-import {Button, Dialog, TextInput, Modal, Text} from 'react-native-paper';
+import {Button, Dialog, TextInput, Text} from 'react-native-paper';
 import useNewBacklogViewController from '../viewcontrollers/useNewBacklogViewController';
 import {RootStackParamList} from '../../App';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -28,9 +28,11 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
     price: 0,
     quantity: 1,
     category: '',
-    buyOn: '',
+    buyOn: new Date().toLocaleDateString('en-gb'),
     base64qrcode: '',
     base64image: '',
+    createdOn: '',
+    modifiedOn: '',
   });
   const [category, setCategory] = useState<ICategory>({
     id: '',
@@ -97,12 +99,30 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
     }));
   };
 
+  // return date in format dd/mm/yyyy to iso date
+  const formatBuyOnDate = (date: string) => {
+    let [day, month, year] = date.split('/');
+    const dateFormatted = new Date(+year, +month - 1, +day);
+    return dateFormatted;
+  };
+
   // -----------------------------------------------------------------------------------
   // View
 
   return (
     <View style={styles.container}>
       <View style={styles.form}>
+        {backlog.base64image && (
+          <Image
+            style={{
+              width: 'auto',
+              height: 150,
+              marginBottom: 15,
+            }}
+            source={{uri: backlog.base64image !== '' ? backlog.base64image : undefined}}
+          />
+        )}
+
         <TextInput
           label="Name"
           value={backlog.name}
@@ -126,26 +146,17 @@ const NewBacklogView = ({route, navigation}: NewBacklogProps) => {
           mode="outlined"
           style={styles.formInput}
         />
-        <DatePickerComponent onBuyOnChange={date => onInputChange('buyOn', date)} />
+        <DatePickerComponent
+          // buyOn={backlog.buyOn}
+          buyOn={formatBuyOnDate(backlog.buyOn)}
+          onBuyOnChange={date => onInputChange('buyOn', date)}
+        />
 
         <CategoryComponent
           onCategoryChange={category => onInputChange('category', category.id)}
           categories={categories}
           onNewCategoryPress={() => setVisible(true)}
           category={null}
-        />
-      </View>
-      <View>
-        <Image
-          style={{
-            width: 'auto',
-            height: 150,
-            // resizeMode: Image. resizeMode.contain,
-            borderWidth: 1,
-            borderColor: 'red',
-            marginBottom: 15,
-          }}
-          source={{uri: backlog.base64image !== '' ? backlog.base64image : undefined}}
         />
 
         <Button icon="camera" mode="contained" onPress={handleTakeImage} style={styles.formButton}>
@@ -208,9 +219,6 @@ const styles = StyleSheet.create({
     paddingTop: 4,
     paddingBottom: 5,
     marginBottom: 15,
-
-    // alignSelf: 'flex-end',
-    // width: 130,
   },
 });
 

@@ -86,22 +86,9 @@ export default class exclusiveBacklogService {
         quantity: item.quantity,
         base64qrcode: item.base64qrcode,
         base64image: item.base64image,
+        createdOn: item.createdOn,
+        modifiedOn: item.modifiedOn,
       }));
-
-      // // map data
-      // const mappedBacklogs: Backlog[] = data.map(
-      //   item =>
-      //     new Backlog(
-      //       item._id,
-      //       item.name,
-      //       item.category,
-      //       item.buyOn,
-      //       item.createdOn,
-      //       item.modifiedOn,
-      //       item.price,
-      //       item.quantity,
-      //     ),
-      // );
 
       return mappedBacklogs;
     } catch (error) {
@@ -125,6 +112,8 @@ export default class exclusiveBacklogService {
         quantity: data.quantity,
         base64qrcode: data.base64qrcode,
         base64image: data.base64image,
+        createdOn: data.createdOn,
+        modifiedOn: data.modifiedOn,
       };
 
       return mappedBacklog;
@@ -162,7 +151,6 @@ export default class exclusiveBacklogService {
         quantity: backlog.quantity,
         base64qrcode: '',
         base64image: backlog.base64image,
-        // __v: 0,
         createdOn: '',
         modifiedOn: '',
       };
@@ -185,6 +173,8 @@ export default class exclusiveBacklogService {
         quantity: data.quantity,
         base64qrcode: data.base64qrcode,
         base64image: data.base64image,
+        createdOn: data.createdOn,
+        modifiedOn: data.modifiedOn,
       };
 
       return mappedBacklog;

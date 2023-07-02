@@ -1,44 +1,34 @@
-import moment from 'moment';
 import * as React from 'react';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Button, TextInput, Text} from 'react-native-paper';
-import {DatePickerModal} from 'react-native-paper-dates';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 interface DatePickerComponentProps {
+  buyOn: Date;
   onBuyOnChange: (value: string) => void;
 }
 
 const DatePickerComponent = (props: DatePickerComponentProps) => {
-  const {onBuyOnChange} = props;
+  const {buyOn, onBuyOnChange} = props;
+  const [date, setDate] = useState(buyOn);
+  const [show, setShow] = useState(false);
 
-  const [date, setDate] = React.useState<Date | undefined>(undefined);
-  const [open, setOpen] = React.useState(false);
-
-  // onload
-  useEffect(() => {
-    onBuyOnChange(moment(date?.toString()).format('DD/MM/YYYY'));
-  }, []);
-
-  const onDismissSingle = React.useCallback(() => {
-    setOpen(false);
-  }, [setOpen]);
-
-  const onConfirmSingle = React.useCallback(
-    (params: any) => {
-      setOpen(false);
-      setDate(params.date);
-
-      onBuyOnChange(moment(params.date?.toString()).format('DD/MM/YYYY'));
+  const onChange = React.useCallback(
+    (event: any, selectedDate: any) => {
+      const currentDate = selectedDate;
+      setShow(false);
+      setDate(currentDate);
+      onBuyOnChange(new Date(currentDate).toLocaleDateString('en-gb'));
     },
-    [setOpen, setDate],
+    [setShow, setDate],
   );
 
   return (
     <View style={styles.rowContainer}>
       <TextInput
         label="Buy On"
-        value={moment(date?.toString()).format('DD/MM/YYYY')}
+        value={new Date(date).toLocaleDateString('en-gb')}
         mode="outlined"
         style={styles.formInput}
       />
@@ -46,32 +36,20 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
       <Button
         icon="calendar"
         mode="contained"
-        onPress={() => setOpen(true)}
+        onPress={() => setShow(true)}
         style={styles.formButton}>
         Add Date
       </Button>
 
-      <DatePickerModal
-        locale="en-GB"
-        mode="single"
-        visible={open}
-        onDismiss={onDismissSingle}
-        date={date}
-        onConfirm={onConfirmSingle}
-        // validRange={{
-        //   startDate: new Date(2021, 1, 2),  // optional
-        //   endDate: new Date(), // optional
-        //   disabledDates: [new Date()] // optional
-        // }}
-        // onChange={} // same props as onConfirm but triggered without confirmed by user
-        // saveLabel="Save" // optional
-        // saveLabelDisabled={true} // optional, default is false
-        // uppercase={false} // optional, default is true
-        // label="Select date" // optional
-        // animationType="slide" // optional, default is 'slide' on ios/android and 'none' on web
-        // startYear={2000} // optional, default is 1800
-        // endYear={2100} // optional, default is 2200
-      />
+      {show && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode={'date'}
+          is24Hour={true}
+          onChange={onChange}
+        />
+      )}
     </View>
   );
 };

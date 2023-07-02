@@ -2,7 +2,6 @@
 
 export interface IBacklogDTO {
   id: string;
-  // __v: number;
   name: string;
   price: number;
   quantity: number;
@@ -23,8 +22,8 @@ export interface IBacklog {
   buyOn: string;
   base64qrcode: string;
   base64image: string;
-  // createdOn: string;
-  // modifiedOn: string;
+  createdOn: string;
+  modifiedOn: string;
 }
 
 export interface IBacklogResponseDTO {

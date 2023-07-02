@@ -44,13 +44,17 @@ const useUpdateBacklogViewController = () => {
   }, [categoryStatus, dispatch]);
 
   const onFormSubmit = (backlog: IBacklog) => {
-    if (backlog.category !== undefined) {
-      dispatch(updateBacklog(backlog));
-      dispatch(resetStatus());
-      // navigate back
-      navigation.goBack();
-    } else {
-      // return error msg
+    try {
+      if (backlog.category !== undefined) {
+        dispatch(updateBacklog(backlog));
+        dispatch(resetStatus());
+        // navigate back
+        navigation.goBack();
+      } else {
+        // return error msg
+      }
+    } catch (ex) {
+      console.log(ex);
     }
   };
 

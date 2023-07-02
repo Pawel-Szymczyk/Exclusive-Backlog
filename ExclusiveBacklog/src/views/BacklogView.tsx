@@ -1,6 +1,6 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {useState} from 'react';
-import {StyleSheet, Image, View, TouchableOpacity, FlatList, ScrollView} from 'react-native';
+import {StyleSheet, Image, View} from 'react-native';
 import {RootStackParamList} from '../../App';
 import useBacklogViewController from '../viewcontrollers/useBacklogViewController';
 import {DataTable, Button, Snackbar} from 'react-native-paper';
@@ -23,7 +23,6 @@ const BacklogView = ({route, navigation}: BacklogProps) => {
 
   // -------------------------------------------------------------------
   // states
-  // const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
 
   // -------------------------------------------------------------------
   // actions (TODO: move to controller)
@@ -45,10 +44,6 @@ const BacklogView = ({route, navigation}: BacklogProps) => {
     setVisibleSnackBar(!visibleSnackBar);
   };
 
-  // const onAcceptDeleteClick = () => {
-  //   setDeleteDialogVisible(false);
-  // };
-
   // -------------------------------------------------------------------
   // effects
   React.useEffect(() => {
@@ -57,14 +52,14 @@ const BacklogView = ({route, navigation}: BacklogProps) => {
     });
   }, [navigation]);
 
-  // --------------------------------------------------------
+  // -------------------------------------------------------------------
   // Snackbar (status message popup)
 
   const [visibleSnackBar, setVisibleSnackBar] = React.useState(false);
   const [messageSnackBar, setMessageSnackBar] = React.useState('');
   const onDismissSnackBar = () => setVisibleSnackBar(false);
 
-  // --------------------------------------------------------
+  // -------------------------------------------------------------------
 
   // -------------------------------------------------------------------
   // view
@@ -79,9 +74,6 @@ const BacklogView = ({route, navigation}: BacklogProps) => {
                 ? backlog?.base64image
                 : 'https://cdn.thewirecutter.com/wp-content/media/2021/09/pens-2048px-6546-2x1-1.jpg?auto=webp&quality=75&crop=2:1&width=980&dpr=2',
           }}
-          // source={{
-          //   uri: 'https://cdn.thewirecutter.com/wp-content/media/2021/09/pens-2048px-6546-2x1-1.jpg?auto=webp&quality=75&crop=2:1&width=980&dpr=2',
-          // }}
         />
       </View>
       <View style={style.tableContainer}>
@@ -108,11 +100,19 @@ const BacklogView = ({route, navigation}: BacklogProps) => {
           </DataTable.Row>
           <DataTable.Row>
             <DataTable.Title>Created On:</DataTable.Title>
-            <DataTable.Cell>-</DataTable.Cell>
+            <DataTable.Cell>
+              {backlog?.createdOn !== undefined
+                ? new Date(backlog?.createdOn).toLocaleString()
+                : '-'}
+            </DataTable.Cell>
           </DataTable.Row>
           <DataTable.Row style={{backgroundColor: '#f4f3ee'}}>
             <DataTable.Title>Modified On:</DataTable.Title>
-            <DataTable.Cell>-</DataTable.Cell>
+            <DataTable.Cell>
+              {backlog?.modifiedOn !== undefined
+                ? new Date(backlog?.modifiedOn).toLocaleString()
+                : '-'}
+            </DataTable.Cell>
           </DataTable.Row>
         </DataTable>
       </View>
